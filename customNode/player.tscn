@@ -20,6 +20,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("4_q22w7")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("2_pm33x")
 }],
 "loop": 1,
@@ -32,14 +40,6 @@ animations = [{
 }],
 "loop": 1,
 "name": &"jump_up",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_q22w7")
-}],
-"loop": 1,
-"name": &"stand",
 "speed": 5.0
 }, {
 "frames": [{
@@ -71,7 +71,6 @@ script = ExtResource("1_pm33x")
 position = Vector2(-2.41, -34.215)
 scale = Vector2(0.15234375, 0.15234375)
 sprite_frames = SubResource("SpriteFrames_pm33x")
-animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=469422732]
 position = Vector2(-2.435, -31.255)
