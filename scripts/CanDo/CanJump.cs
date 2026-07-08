@@ -12,7 +12,7 @@ public class CanJump : ICanJump
         this.jumpStrength = jumpStrength;
     }
     
-    public Vector2 jump(Vector2 velocity, Vector2? directionJump = null)
+    public virtual Vector2 jump(Vector2 velocity, Vector2? directionJump = null)
     {
         if (owner.IsOnFloor())
         {

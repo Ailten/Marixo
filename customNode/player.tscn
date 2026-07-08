@@ -31,7 +31,7 @@ animations = [{
 "texture": ExtResource("2_pm33x")
 }],
 "loop": 1,
-"name": &"jump_down",
+"name": &"fall",
 "speed": 5.0
 }, {
 "frames": [{
@@ -39,7 +39,7 @@ animations = [{
 "texture": ExtResource("3_ijh31")
 }],
 "loop": 1,
-"name": &"jump_up",
+"name": &"jump",
 "speed": 5.0
 }, {
 "frames": [{
@@ -71,6 +71,7 @@ script = ExtResource("1_pm33x")
 position = Vector2(-2.41, -34.215)
 scale = Vector2(0.15234375, 0.15234375)
 sprite_frames = SubResource("SpriteFrames_pm33x")
+animation = &"atk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=469422732]
 position = Vector2(-2.435, -31.255)

@@ -5,18 +5,18 @@ public partial class Player : Character
 {
 	private CanWalk canWalk;
 	private CanFall canFall;
-	private CanJump canJump;
+	private CanCurveJump canJump;
 
 	private StatePlayer statePlayer = StatePlayer.Default;
 
 	public override void _Ready()
 	{
 		base._Ready();
-		this.intencityVelocityTaken = 0.9f;
-		this.canWalk = new CanWalk(speedWalk: 2600f);
-		this.canFall = new CanFall(this, mass: 5f);
-		this.canFall.fallingMultiplication = 1.5f;
-		this.canJump = new CanJump(this, jumpStrength: 3000f);
+		this.intencityVelocityTaken = 0.85f;
+		this.canWalk = new CanWalk(speedWalk: 4000f);
+		this.canFall = new CanFall(this, mass: 12f);
+		this.canJump = new CanCurveJump(this, jumpStrength: 400f, timeJump: 0.4f);
+		this.canJump.canFall = this.canFall;
 	}
 
 	//public override void _Process(double delta)
@@ -28,27 +28,29 @@ public partial class Player : Character
 		// get previous velocity.
 		Vector2 velocity = this.getVelocity();
 
+		StatePlayer newStatePlayer = StatePlayer.Default;
+
 		// take input direction from user.
 		Vector2 directionInput = Input.GetVector("left", "right", "up", "down");
-		bool isJumpInput = Input.IsActionPressed("space");
 
 		// eval if input horizontal is pressed.
 		bool isHorizontalPress = Math.Abs(directionInput.X) > 0.2f;
 		if (isHorizontalPress)
 		{
+			// apply walk.
+			bool isWalkRight = directionInput.X > 0f;
+			Vector2 directionWalk = isWalkRight ? Vector2.Right : Vector2.Left;
+			velocity = this.canWalk.walk(velocity, (float)delta, directionWalk);
 
 			// eval if it press to an oposite direction currently facing.
-			bool isSwitchDirection = directionInput.X > 0f ^ this.isLookAtRight;
+			bool isSwitchDirection = isWalkRight ^ this.isLookAtRight;
 			if (isSwitchDirection)
 			{
 				this.isLookAtRight = !this.isLookAtRight;  // swap facing sprite.
 			}
 
 			// force to play anime walk.
-			if (IsOnFloor() && this.animatedSprite.Animation != "walk")
-			{
-				this.animatedSprite.Play("walk");
-			}
+			newStatePlayer = StatePlayer.Walk;
 
 		}
 
@@ -56,26 +58,15 @@ public partial class Player : Character
 		if (isHorizontalPress ^ this.canWalk.isWalking)
 		{
 			this.canWalk.isWalking = !this.canWalk.isWalking;
-			if (IsOnFloor())
-			{
-				this.animatedSprite.Play(
-					this.canWalk.isWalking ? "walk" : "default"
-				);
-			}
-		}
-
-		// apply walk.
-		if (isHorizontalPress)
-		{
-			Vector2 directionWalk = directionInput.X > 0f ? Vector2.Right : Vector2.Left;
-			velocity = this.canWalk.walk(velocity, (float)delta, directionWalk);
 		}
 
 		// apply jump.
+		bool isJumpInput = Input.IsActionJustPressed("space");
 		if (isJumpInput)
 		{
 			velocity = this.canJump.jump(velocity);
 		}
+		velocity = this.canJump.updateJump(velocity, (float) delta);
 
 		// apply falling.
 		if (!IsOnFloor())
@@ -88,17 +79,16 @@ public partial class Player : Character
 			if (isMovingVerticaly)
 			{
 				bool isFallingUp = velocity.Y > 0f;
-				this.animatedSprite.Play(
-					isFallingUp ? "jump_down" : "jump_up"
-				);
+				newStatePlayer = isFallingUp ? StatePlayer.Fall : StatePlayer.Jump;
 			}
 		}
 
-		// apply default sprite (if no falling).
-		//if (IsOnFloor() && Math.Abs(velocity.X) + Math.Abs(velocity.Y) < 0.01f)
-		//{
-		//	this.animatedSprite.Play("default");
-		//}
+		if (this.statePlayer != newStatePlayer){
+			this.animatedSprite.Play(
+				newStatePlayer.ToString().ToLower()
+			);
+			this.statePlayer = newStatePlayer;
+		}
 
 		// apply new velocity.
 		this.applyVelocity(velocity);

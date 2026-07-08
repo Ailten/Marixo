@@ -7,6 +7,7 @@ public class CanFall : ICanFall
     public bool isGravity = true;
     public float mass;
     public float fallingMultiplication = 1f;
+    public float gravityMult = 1f;
 
     public CanFall(CharacterBody2D owner, float mass = 1.0f)
     {
@@ -18,7 +19,7 @@ public class CanFall : ICanFall
     {
         if (this.isGravity && !owner.IsOnFloor())
         {
-            velocity += owner.GetGravity() * delta * mass * (velocity.Y < 0.8f? this.fallingMultiplication: 1f);
+            velocity += owner.GetGravity() * delta * mass * (velocity.Y < 0.8f? this.fallingMultiplication: 1f) * gravityMult;
         }
         return velocity;
     }
