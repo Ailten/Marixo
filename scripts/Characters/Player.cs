@@ -66,7 +66,7 @@ public partial class Player : Character
 		{
 			velocity = this.canJump.jump(velocity);
 		}
-		velocity = this.canJump.updateJump(velocity, (float) delta);
+		velocity = this.canJump.updateJump(velocity, (float)delta);
 
 		// apply falling.
 		if (!IsOnFloor())
@@ -83,7 +83,8 @@ public partial class Player : Character
 			}
 		}
 
-		if (this.statePlayer != newStatePlayer){
+		if (this.statePlayer != newStatePlayer)
+		{
 			this.animatedSprite.Play(
 				newStatePlayer.ToString().ToLower()
 			);
@@ -92,6 +93,12 @@ public partial class Player : Character
 
 		// apply new velocity.
 		this.applyVelocity(velocity);
+	}
+
+	protected override void applyFlipH()
+	{
+		base.applyFlipH();
+		GetNode<Marker2D>("CameraMarker").Position *= new Vector2(-1, 1);
 	}
 
 }

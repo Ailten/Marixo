@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bie0w8ancy32i"]
 
 [ext_resource type="Texture2D" uid="uid://dd6g3q81xq0bh" path="res://sprites/player_atk_1.png" id="1_aufpu"]
-[ext_resource type="Script" uid="uid://dsdc65a8451de" path="res://scripts/Player.cs" id="1_pm33x"]
+[ext_resource type="Script" uid="uid://dsdc65a8451de" path="res://scripts/Characters/Player.cs" id="1_pm33x"]
 [ext_resource type="Texture2D" uid="uid://yyvi36cc6sse" path="res://sprites/player_jump_2.png" id="2_pm33x"]
 [ext_resource type="Texture2D" uid="uid://bnpsw2a1s4u5p" path="res://sprites/player_jump_1.png" id="3_ijh31"]
 [ext_resource type="Texture2D" uid="uid://cvcirdys2a26k" path="res://sprites/player_stand_1.png" id="4_q22w7"]
@@ -76,3 +76,6 @@ animation = &"atk"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=469422732]
 position = Vector2(-2.435, -31.255)
 shape = SubResource("CapsuleShape2D_ijh31")
+
+[node name="CameraMarker" type="Marker2D" parent="." unique_id=1880056442]
+position = Vector2(120, -80)

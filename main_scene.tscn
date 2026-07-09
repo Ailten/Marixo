@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bie0w8ancy32i" path="res://customNode/player.tscn" id="1_0f027"]
 [ext_resource type="Texture2D" uid="uid://cr5hmnokm2w5u" path="res://sprites/platform.png" id="2_2c62f"]
+[ext_resource type="Script" uid="uid://sotdva6otk8w" path="res://scripts/Props/Camera.cs" id="3_gyfs4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5fgvr"]
 size = Vector2(320, 18)
@@ -37,3 +38,6 @@ shape = SubResource("RectangleShape2D_5fgvr")
 [node name="Player" parent="." unique_id=1482810183 instance=ExtResource("1_0f027")]
 position = Vector2(570, 477.065)
 scale = Vector2(1.77, 1.77)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1023732800]
+script = ExtResource("3_gyfs4")

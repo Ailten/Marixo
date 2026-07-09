@@ -24,13 +24,14 @@ public partial class Character : CharacterBody2D
 	{
 		// get and set default value to AnimatedSprite2D child.
 		this.animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		this.applyFlipH();
+		this.animatedSprite.FlipH = false;
 		this.animatedSprite.Play("default");
 	}
 
 	// ------>
 
-	private void applyFlipH() {
+	protected virtual void applyFlipH()
+	{
 		this.animatedSprite.FlipH = !this.isLookAtRight;
 	}
 
