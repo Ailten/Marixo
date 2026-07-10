@@ -10,9 +10,9 @@ public class CanDoubleJump : CanJump
 
     public override Vector2 jump(Vector2 velocity, Vector2? directionJump = null)
     {
-        if (!owner.IsOnFloor() && this.isCanDoubleJump)
+        if (!owner.IsOnFloor() && isCanDoubleJump)
         {
-            this.isCanDoubleJump = false;
+            isCanDoubleJump = false;
             velocity += (directionJump ?? Vector2.Up) * jumpStrength;
             return velocity;
         }
@@ -22,7 +22,7 @@ public class CanDoubleJump : CanJump
 
     public void checkIsTouchingFloor()
     {
-        if (owner.IsOnFloor() && !this.isCanDoubleJump)
-            this.isCanDoubleJump = true;
+        if (owner.IsOnFloor() && !isCanDoubleJump)
+            isCanDoubleJump = true;
     }
 }

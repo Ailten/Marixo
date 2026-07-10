@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Character : CharacterBody2D
 {
@@ -23,23 +22,23 @@ public partial class Character : CharacterBody2D
 	public override void _Ready()
 	{
 		// get and set default value to AnimatedSprite2D child.
-		this.animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		this.animatedSprite.FlipH = false;
-		this.animatedSprite.Play("default");
+		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite.FlipH = false;
+		animatedSprite.Play("default");
 	}
 
 	// ------>
 
 	protected virtual void applyFlipH()
 	{
-		this.animatedSprite.FlipH = !this.isLookAtRight;
+		animatedSprite.FlipH = !isLookAtRight;
 	}
 
 	protected void evalFlipH(float moveH) {
-		if (moveH > 0f ^ this.isLookAtRight)
+		if (moveH > 0f ^ isLookAtRight)
 		{
-			this.isLookAtRight = !this.isLookAtRight;
-			this.applyFlipH();
+			isLookAtRight = !isLookAtRight;
+			applyFlipH();
 		}
 	}
 
@@ -52,7 +51,6 @@ public partial class Character : CharacterBody2D
 	{
 		Velocity = velocity;
 		MoveAndSlide();
-		//MoveAndCollide(Velocity);
 	}
 
 }

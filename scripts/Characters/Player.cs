@@ -6,17 +6,23 @@ public partial class Player : Character
 	private CanWalk canWalk;
 	private CanFall canFall;
 	private CanCurveJump canJump;
+	private CanShoot canShoot;
 
 	private StatePlayer statePlayer = StatePlayer.Default;
 
 	public override void _Ready()
 	{
 		base._Ready();
-		this.intencityVelocityTaken = 0.85f;
-		this.canWalk = new CanWalk(speedWalk: 4000f);
-		this.canFall = new CanFall(this, mass: 12f);
-		this.canJump = new CanCurveJump(this, jumpStrength: 420f, timeJump: 0.45f);
-		this.canJump.canFall = this.canFall;
+		intencityVelocityTaken = 0.85f;
+		canWalk = new CanWalk(speedWalk: 4000f);
+		canFall = new CanFall(this, mass: 12f);
+		canJump = new CanCurveJump(this, jumpStrength: 420f, timeJump: 0.45f);
+		canJump.canFall = canFall;
+		canShoot = new CanShoot(
+			this,
+			startMarker: GetNode<Marker2D>("FistShootStartMarker"),
+			endMarker: GetNode<Marker2D>("FistShootEndMarker")
+		);
 	}
 
 	//public override void _Process(double delta)
@@ -26,27 +32,27 @@ public partial class Player : Character
 	public override void _PhysicsProcess(double delta)
 	{
 		// get previous velocity.
-		Vector2 velocity = this.getVelocity();
+		Vector2 velocity = getVelocity();
 
 		StatePlayer newStatePlayer = StatePlayer.Default;
 
-		// take input direction from user.
-		Vector2 directionInput = Input.GetVector("left", "right", "up", "down");
+		// get horizontal input.
+		float horizontalInput = Input.GetAxis("left", "right");
 
 		// eval if input horizontal is pressed.
-		bool isHorizontalPress = Math.Abs(directionInput.X) > 0.2f;
+		bool isHorizontalPress = Math.Abs(horizontalInput) > 0.2f;
 		if (isHorizontalPress)
 		{
 			// apply walk.
-			bool isWalkRight = directionInput.X > 0f;
+			bool isWalkRight = horizontalInput > 0f;
 			Vector2 directionWalk = isWalkRight ? Vector2.Right : Vector2.Left;
-			velocity = this.canWalk.walk(velocity, (float)delta, directionWalk);
+			velocity = canWalk.walk(velocity, (float)delta, directionWalk);
 
 			// eval if it press to an oposite direction currently facing.
-			bool isSwitchDirection = isWalkRight ^ this.isLookAtRight;
+			bool isSwitchDirection = isWalkRight ^ isLookAtRight;
 			if (isSwitchDirection)
 			{
-				this.isLookAtRight = !this.isLookAtRight;  // swap facing sprite.
+				isLookAtRight = !isLookAtRight;  // swap facing sprite.
 			}
 
 			// force to play anime walk.
@@ -55,24 +61,32 @@ public partial class Player : Character
 		}
 
 		// apply sprite walk (or remove).
-		if (isHorizontalPress ^ this.canWalk.isWalking)
+		if (isHorizontalPress ^ canWalk.isWalking)
 		{
-			this.canWalk.isWalking = !this.canWalk.isWalking;
+			canWalk.isWalking = !canWalk.isWalking;
 		}
 
 		// apply jump.
-		bool isJumpInput = Input.IsActionJustPressed("space");
+		bool isJumpInput = Input.IsActionJustPressed("up");
 		if (isJumpInput)
 		{
-			velocity = this.canJump.jump(velocity);
+			velocity = canJump.jump(velocity);
 		}
-		velocity = this.canJump.updateJump(velocity, (float)delta);
+		velocity = canJump.updateJump(velocity, (float)delta);
+
+		// apply shoot.
+		bool isShootInput = Input.IsActionJustPressed("shoot");
+		if (isShootInput)
+		{
+			canShoot.shoot();
+		}
+		canShoot.updateShoot((float)delta);
 
 		// apply falling.
 		if (!IsOnFloor())
 		{
 			// apply fall.
-			velocity = this.canFall.fall(velocity, (float)delta);
+			velocity = canFall.fall(velocity, (float)delta);
 
 			// apply sprite jump or fall.
 			bool isMovingVerticaly = Math.Abs(velocity.Y) > 0.01f;
@@ -83,31 +97,24 @@ public partial class Player : Character
 			}
 		}
 
-		if (this.statePlayer != newStatePlayer)
+		if (statePlayer != newStatePlayer)
 		{
-			this.animatedSprite.Play(
+			animatedSprite.Play(
 				newStatePlayer.ToString().ToLower()
 			);
-			this.statePlayer = newStatePlayer;
+			statePlayer = newStatePlayer;
 		}
 
 		// apply new velocity.
-		this.applyVelocity(velocity);
+		applyVelocity(velocity);
 	}
 
 	protected override void applyFlipH()
 	{
 		base.applyFlipH();
 		GetNode<Marker2D>("CameraMarker").Position *= new Vector2(-1, 1);
+		GetNode<Marker2D>("FistShootStartMarker").Position *= new Vector2(-1, 1);
+		GetNode<Marker2D>("FistShootEndMarker").Position *= new Vector2(-1, 1);
 	}
 
-}
-
-public enum StatePlayer  // implement it as switch case (for play anime).
-{
-	Default,
-	Walk,
-	Jump,
-	Fall,
-	Atk,
 }

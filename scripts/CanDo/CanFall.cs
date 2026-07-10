@@ -17,9 +17,9 @@ public class CanFall
 
     public Vector2 fall(Vector2 velocity, float delta)
     {
-        if (this.isGravity && !owner.IsOnFloor())
+        if (isGravity && !owner.IsOnFloor())
         {
-            velocity += owner.GetGravity() * delta * mass * (velocity.Y < 0.8f? this.fallingMultiplication: 1f) * gravityMult;
+            velocity += owner.GetGravity() * delta * mass * (velocity.Y < 0.8f? fallingMultiplication: 1f) * gravityMult;
         }
         return velocity;
     }

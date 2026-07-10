@@ -11,14 +11,14 @@ public class CanDoubleCurveJump : CanCurveJump
 
     public override Vector2 jump(Vector2 velocity, Vector2? directionJump = null)
     {
-        if (!owner.IsOnFloor() && this.isHasDoubleJump && !this.isStartingJump)
+        if (!owner.IsOnFloor() && isHasDoubleJump && !isStartingJump)
         {
-            this.isHasDoubleJump = false;
-            CanFall cf = this.canFall;  // disable canFall for not erase gravityMult.
-            this.canFall = null;
-            velocity = this.makeJump(velocity, directionJump);
-            this.canFall = cf;
-            this.canFall.gravityMult = 0f;
+            isHasDoubleJump = false;
+            CanFall cf = canFall;  // disable canFall for not erase gravityMult.
+            canFall = null;
+            velocity = makeJump(velocity, directionJump);
+            canFall = cf;
+            canFall.gravityMult = 0f;
             return velocity;
         }
 
@@ -27,9 +27,9 @@ public class CanDoubleCurveJump : CanCurveJump
 
     public override Vector2 updateJump(Vector2 velocity, float delta)
     {
-        if (!this.isHasDoubleJump && this.owner.IsOnFloor())
+        if (!isHasDoubleJump && owner.IsOnFloor())
         {
-            this.isHasDoubleJump = true;
+            isHasDoubleJump = true;
         }
 
         return base.updateJump(velocity, delta);

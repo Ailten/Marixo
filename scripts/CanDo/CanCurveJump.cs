@@ -22,7 +22,7 @@ public class CanCurveJump : CanJump
 
     public override Vector2 jump(Vector2 velocity, Vector2? directionJump = null)
     {
-        if (!owner.IsOnFloor() || this.isJumping)
+        if (!owner.IsOnFloor() || isJumping)
             return velocity;
 
         return makeJump(velocity, directionJump);
@@ -30,58 +30,58 @@ public class CanCurveJump : CanJump
 
     protected Vector2 makeJump(Vector2 velocity, Vector2? directionJump = null)
     {
-        this.isJumping = true;
-        this.timeFromJump = 0f;
+        isJumping = true;
+        timeFromJump = 0f;
         this.directionJump = directionJump ?? Vector2.Up;
-        if (this.canFall != null)
+        if (canFall != null)
         {
-            this.gravityMult = this.canFall.gravityMult;
-            this.canFall.gravityMult = 0f;
+            gravityMult = canFall.gravityMult;
+            canFall.gravityMult = 0f;
         }
         return velocity;
     }
 
     public virtual Vector2 updateJump(Vector2 velocity, float delta)
     {
-        if (!this.isJumping)
+        if (!isJumping)
             return velocity;
 
-        this.timeFromJump += delta;
-        if (this.timeFromJump >= this.timeJump)
+        timeFromJump += delta;
+        if (timeFromJump >= timeJump)
         {
-            this.endJump();
+            endJump();
             return velocity;
         }
 
         if (
-            !this.isStartingJump &&
-            (this.owner.GetSlideCollisionCount() > 0 || this.owner.IsOnFloor())
+            !isStartingJump &&
+            (owner.GetSlideCollisionCount() > 0 || owner.IsOnFloor())
         )
         {
-            this.endJump();
+            endJump();
             return velocity;
         }
 
-        float i = this.timeFromJump / this.timeJump;  // interpolate linear.
+        float i = timeFromJump / timeJump;  // interpolate linear.
         float i_curv;
         bool isFall = i > 0.5f;
         if (!isFall)
         {
             i *= 2f;  // 0~1.
-            i_curv = Mathf.Lerp(this.jumpStrength, 0f, i);  // 1D bezier curve normalized.
-            i_curv = Mathf.Lerp(this.jumpStrength, i_curv, i);
+            i_curv = Mathf.Lerp(jumpStrength, 0f, i);  // 1D bezier curve normalized.
+            i_curv = Mathf.Lerp(jumpStrength, i_curv, i);
         }
         else
         {
             i = (i - 0.5f) * 2f;  // 0~1.
             i = 1f - i;
-            //i_curv = Mathf.Lerp(0f, -this.jumpStrength, i);  // 1D bezier curve normalized.
-            //i_curv = Mathf.Lerp(i_curv, -this.jumpStrength, i);
+            //i_curv = Mathf.Lerp(0f, -jumpStrength, i);  // 1D bezier curve normalized.
+            //i_curv = Mathf.Lerp(i_curv, -jumpStrength, i);
             //velocity += directionJump * i_curv;
 
-            i_curv = Mathf.Lerp(0f, this.gravityMult, i);  // apply fall with gravity mult.
-            i_curv = Mathf.Lerp(i_curv, this.gravityMult, i);
-            this.canFall.gravityMult = i_curv;
+            i_curv = Mathf.Lerp(0f, gravityMult, i);  // apply fall with gravity mult.
+            i_curv = Mathf.Lerp(i_curv, gravityMult, i);
+            canFall.gravityMult = i_curv;
             return velocity;
 
         }
@@ -92,10 +92,10 @@ public class CanCurveJump : CanJump
 
     private void endJump()
     {
-        this.isJumping = false;
-        if (this.canFall != null)
+        isJumping = false;
+        if (canFall != null)
         {
-            this.canFall.gravityMult = this.gravityMult;
+            canFall.gravityMult = gravityMult;
         }
     }
     

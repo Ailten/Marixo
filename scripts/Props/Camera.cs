@@ -8,8 +8,8 @@ public partial class Camera : Camera2D
 
 	public override void _Ready()
 	{
-		this.target = GetParent().GetNode<Node2D>("Player").GetNode<Node2D>("CameraMarker");
-		this.focusTarget();
+		target = GetParent().GetNode<Node2D>("Player").GetNode<Node2D>("CameraMarker");
+		focusTarget();
 	}
 
 	public override void _Process(double delta)
