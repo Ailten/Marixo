@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cqvg1hwa66hg0"]
+
+[ext_resource type="Texture2D" uid="uid://dpb26bn1ekktx" path="res://sprites/fist_1.png" id="1_75dhx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5fgvr"]
+radius = 3.8
+
+[node name="Node2D" type="Node2D" unique_id=988577636]
+
+[node name="Fist1" type="Sprite2D" parent="." unique_id=828475779]
+scale = Vector2(0.056910567, 0.056910563)
+texture = ExtResource("1_75dhx")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=601967019]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=103563019]
+shape = SubResource("CircleShape2D_5fgvr")

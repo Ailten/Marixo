@@ -15,7 +15,7 @@ public partial class Player : Character
 		this.intencityVelocityTaken = 0.85f;
 		this.canWalk = new CanWalk(speedWalk: 4000f);
 		this.canFall = new CanFall(this, mass: 12f);
-		this.canJump = new CanCurveJump(this, jumpStrength: 400f, timeJump: 0.4f);
+		this.canJump = new CanCurveJump(this, jumpStrength: 420f, timeJump: 0.45f);
 		this.canJump.canFall = this.canFall;
 	}
 

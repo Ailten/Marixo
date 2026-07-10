@@ -1,6 +1,6 @@
 using Godot;
 
-public class CanWalk : ICanWalk
+public class CanWalk
 {
     public float speedWalk;
     public bool isWalking = false;

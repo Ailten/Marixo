@@ -4,7 +4,7 @@ using System;
 public partial class Camera : Camera2D
 {
 	public Node2D target;
-	public float lerpCamera = 0.08f;
+	public float lerpCamera = 0.05f;
 
 	public override void _Ready()
 	{

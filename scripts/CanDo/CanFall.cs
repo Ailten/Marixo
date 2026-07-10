@@ -1,6 +1,6 @@
 using Godot;
 
-public class CanFall : ICanFall
+public class CanFall
 {
     private CharacterBody2D owner;
 

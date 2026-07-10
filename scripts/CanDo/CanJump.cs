@@ -1,6 +1,6 @@
 using Godot;
 
-public class CanJump : ICanJump
+public class CanJump
 {
     public CharacterBody2D owner;
 

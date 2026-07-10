@@ -65,6 +65,8 @@ radius = 21.535
 height = 62.510002
 
 [node name="Player" type="CharacterBody2D" unique_id=497722777]
+z_index = 100
+collision_layer = 2
 script = ExtResource("1_pm33x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2012698103]
