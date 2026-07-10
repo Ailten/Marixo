@@ -15,7 +15,7 @@ public class CanPoolShoot : CanShoot
         {
             pool[i] = sceneProjectil.Instantiate<Node2D>();
             projectilEndTravel(pool[i]);  // reset pos and disabled.
-            owner.GetParent<Node2D>().AddChild(pool[i]);  // add as world-child.
+            owner.GetParent<Node2D>().CallDeferred(Node.MethodName.AddChild, pool[i]);
         }
     }
 
@@ -27,7 +27,7 @@ public class CanPoolShoot : CanShoot
 
         // next projectil is not ready yet.
         projectil = pool[indexPool];
-        if (projectil.ProcessMode == Node.ProcessModeEnum.Inherit)
+        if (projectil.ProcessMode != Node.ProcessModeEnum.Disabled)
             return;
         projectil.ProcessMode = Node.ProcessModeEnum.Inherit;  // unable it.
 

@@ -18,8 +18,9 @@ public partial class Player : Character
 		canFall = new CanFall(this, mass: 12f);
 		canJump = new CanCurveJump(this, jumpStrength: 420f, timeJump: 0.45f);
 		canJump.canFall = canFall;
-		canShoot = new CanShoot(
+		canShoot = new CanPoolShoot(
 			this,
+			amountToLoad: 2,
 			startMarker: GetNode<Marker2D>("FistShootStartMarker"),
 			endMarker: GetNode<Marker2D>("FistShootEndMarker")
 		);
