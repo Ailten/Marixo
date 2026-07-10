@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://dpb26bn1ekktx" path="res://sprites/fist_1.png" id="1_75dhx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5fgvr"]
-radius = 11.75
+radius = 21.9
 
 [node name="fist" type="Node2D" unique_id=254494401]
 script = ExtResource("1_1puf6")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=828475779]
-scale = Vector2(0.197, 0.197)
+scale = Vector2(0.349, 0.349)
 texture = ExtResource("1_75dhx")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1332435446]
@@ -18,5 +18,5 @@ collision_layer = 4
 collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=103563019]
-position = Vector2(0.29, 0.525)
+position = Vector2(0.8, 0.955)
 shape = SubResource("CircleShape2D_5fgvr")

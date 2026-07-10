@@ -6,11 +6,11 @@ public class CanPoolShoot : CanShoot
     private Node2D[] pool;
     private int indexPool = 0;
 
-    public CanPoolShoot(CharacterBody2D owner, string PathProjectilInstance = "res://customNode/fist.tscn", int amountToLoad = 5, Node2D startMarker = null, Node2D endMarker = null) :
+    public CanPoolShoot(CharacterBody2D owner, string pathProjectilInstance = "res://customNode/fist.tscn", int amountToLoad = 5, Node2D startMarker = null, Node2D endMarker = null) :
     base(owner, startMarker, endMarker)
     {
         pool = new Node2D[amountToLoad];
-        PackedScene sceneProjectil = GD.Load<PackedScene>(PathProjectilInstance);
+        PackedScene sceneProjectil = GD.Load<PackedScene>(pathProjectilInstance);
         for (int i = 0; i < amountToLoad; i++)
         {
             pool[i] = sceneProjectil.Instantiate<Node2D>();

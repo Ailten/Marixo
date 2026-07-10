@@ -68,7 +68,7 @@ public partial class Player : Character
 		}
 
 		// apply jump.
-		bool isJumpInput = Input.IsActionJustPressed("up");
+		bool isJumpInput = Input.IsActionJustPressed("jump");
 		if (isJumpInput)
 		{
 			velocity = canJump.jump(velocity);
