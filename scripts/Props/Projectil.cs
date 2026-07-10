@@ -2,7 +2,7 @@ using Godot;
 
 public partial class Projectil : Node2D
 {
-    private Vector2 startPos, endPos;
+    protected Vector2 startPos, endPos;
     private float cumulTime = 0f;
     private float endTime;
     private Area2D triggerArea;
@@ -28,6 +28,7 @@ public partial class Projectil : Node2D
 
     public override void _Process(double delta)
     {
+        // eval interpolation time travel.
         cumulTime += (float)delta;
         float i = cumulTime / endTime;
         if (i > 1f)
@@ -35,6 +36,13 @@ public partial class Projectil : Node2D
             endTravel();
             return;
         }
+
+        // execute lerp pos.
+        setPosUpdate(i);
+    }
+
+    protected virtual void setPosUpdate(float i)
+    {
         GlobalPosition = startPos.Lerp(endPos, i);
     }
 

@@ -50,14 +50,14 @@ public class CanShoot
 
 	public void projectilEndTravel(Node2D projectil)
 	{
-        // destroy projectil.
+		// destroy projectil.
 		projectil.QueueFree();
 	}
 
 	public void projectilTrigger(Node2D projectil, Node2D body)
 	{
 		Console.WriteLine($"Touched : {body.Name}");
-		this.projectilEndTravel(projectil);
+		projectilEndTravel(projectil);
 	}
 
 }
