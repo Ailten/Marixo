@@ -71,13 +71,13 @@ collision_mask = 9
 script = ExtResource("1_pm33x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2012698103]
-position = Vector2(-3.02, -57.64)
+position = Vector2(0, -57.64)
 scale = Vector2(0.269, 0.269)
 sprite_frames = SubResource("SpriteFrames_pm33x")
 animation = &"atk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=469422732]
-position = Vector2(-1.59, -55.57)
+position = Vector2(0, -55.57)
 shape = SubResource("CapsuleShape2D_ijh31")
 
 [node name="CameraMarker" type="Marker2D" parent="." unique_id=1880056442]

@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://b2oswi6yts84l"]
+
+[ext_resource type="Texture2D" uid="uid://bp1s5xbg7qk75" path="res://sprites/lapy_default.png" id="1_u0mwc"]
+[ext_resource type="Texture2D" uid="uid://dqlrkeive8ii0" path="res://sprites/lapy_hit.png" id="2_42qhr"]
+[ext_resource type="Texture2D" uid="uid://djpy71askanxd" path="res://sprites/lapy_jump.png" id="3_3x2xx"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5fgvr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_u0mwc")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_42qhr")
+}],
+"loop": 1,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3x2xx")
+}],
+"loop": 1,
+"name": &"jump",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5fgvr"]
+radius = 62.0
+height = 268.3
+
+[node name="Lapy" type="CharacterBody2D" unique_id=1729282940]
+z_index = 90
+collision_layer = 8
+collision_mask = 3
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=776785389]
+position = Vector2(0, -57.155)
+sprite_frames = SubResource("SpriteFrames_5fgvr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=66277619]
+position = Vector2(0, -62.675)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_5fgvr")
+
+[node name="RayCast2DIsGround" type="RayCast2D" parent="." unique_id=1162854729]
+position = Vector2(200, -50)
+target_position = Vector2(0, 100)
