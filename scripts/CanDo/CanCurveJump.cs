@@ -41,7 +41,7 @@ public class CanCurveJump : CanJump
         return velocity;
     }
 
-    public virtual Vector2 updateJump(Vector2 velocity, float delta)
+    public override Vector2 updateJump(Vector2 velocity, float delta)
     {
         if (!isJumping)
             return velocity;

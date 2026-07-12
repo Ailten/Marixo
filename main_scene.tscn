@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bie0w8ancy32i" path="res://customNode/player.tscn" id="1_0f027"]
 [ext_resource type="Texture2D" uid="uid://cr5hmnokm2w5u" path="res://sprites/platform.png" id="2_2c62f"]
 [ext_resource type="Script" uid="uid://sotdva6otk8w" path="res://scripts/Props/Camera.cs" id="3_gyfs4"]
+[ext_resource type="PackedScene" uid="uid://b2oswi6yts84l" path="res://customNode/lapy.tscn" id="4_d5x1h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gyfs4"]
 texture = ExtResource("2_2c62f")
@@ -204,7 +205,7 @@ sources/0 = SubResource("TileSetAtlasSource_gyfs4")
 [node name="Node2D" type="Node2D" unique_id=1933696957]
 
 [node name="Player" parent="." unique_id=1482810183 instance=ExtResource("1_0f027")]
-position = Vector2(570, 680.48)
+position = Vector2(570, 736.485)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1023732800]
 script = ExtResource("3_gyfs4")
@@ -213,3 +214,9 @@ script = ExtResource("3_gyfs4")
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAADAAYAAAABAAAAAAAEAAYAAAABAAAAAAAFAAYAAAABAAAAAAAGAAYAAAABAAAAAAAGAAcAAAAAAAEAAAAFAAcAAAAAAAEAAAAEAAcAAAAAAAEAAAADAAcAAAAAAAEAAAAHAAYAAAABAAAAAAAHAAcAAAAAAAEAAAACAAYAAAACAAMAAAACAAUAAAABAAMAAAACAAQAAAABAAMAAAABAAQAAAAAAAMAAAABAAUAAAAAAAMAAAABAAYAAAAAAAMAAAACAAcAAAAAAAEAAAABAAcAAAABAAEAAAACAAMAAAABAAMAAAACAAIAAAABAAMAAAACAAEAAAABAAMAAAABAAEAAAAAAAMAAAABAAIAAAAAAAMAAAABAAMAAAAAAAMAAAACAAAAAAABAAMAAAACAP//AAABAAMAAAACAP7/AAABAAMAAAACAP3/AAADAAAAAAABAP3/AAACAAAAAAABAP7/AAAAAAMAAAABAP//AAAAAAMAAAABAAAAAAAAAAMAAAAKAAcAAAAAAAEAAAAKAAYAAAABAAAAAAALAAYAAAADAAAAAAALAAcAAAACAAEAAAAJAAcAAAAAAAEAAAAJAAYAAAABAAAAAAAOAAYAAAADAAAAAAAOAAcAAAACAAEAAAAQAAYAAAACAAAAAAARAAYAAAABAAAAAAARAAcAAAAAAAEAAAAQAAcAAAABAAEAAAAIAAYAAAABAAAAAAAIAAcAAAAAAAEAAAANAAYAAAACAAAAAAANAAcAAAABAAEAAAASAAYAAAADAAAAAAASAAcAAAACAAEAAAA=")
 tile_set = SubResource("TileSet_5fgvr")
+
+[node name="Lapy" parent="." unique_id=1729282940 instance=ExtResource("4_d5x1h")]
+position = Vector2(2093.69, 767.195)
+
+[node name="Lapy2" parent="." unique_id=1827532320 instance=ExtResource("4_d5x1h")]
+position = Vector2(820.935, 767.195)

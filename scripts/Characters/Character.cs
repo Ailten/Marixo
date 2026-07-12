@@ -53,4 +53,78 @@ public partial class Character : CharacterBody2D
 		MoveAndSlide();
 	}
 
+    // ------>
+
+    private int hp = 1;
+    private int maxHp = 1;
+    private int hpLeft
+    {
+        get => maxHp - hp;
+    }
+    protected int setMaxHp 
+    {
+        set { 
+            maxHp = value;
+            hp = value;
+        }
+    }
+    public bool isLiving
+    {
+        get => hp > 0;
+    }
+    protected float cooldownDamaged = 0.7f;
+    private ulong timeWorldWhenLastHit = 0;
+    public bool isCooldownDamaged
+    {
+        get => ((float)(Time.GetTicksMsec() - timeWorldWhenLastHit)) / 1000f < cooldownDamaged;
+    }
+    public float interpolateCooldownDamaged
+    {
+        get => (((float)(Time.GetTicksMsec() - timeWorldWhenLastHit)) / 1000f) / cooldownDamaged;
+    }
+
+    public void refillLive()
+    {
+        heal(maxHp);
+    }
+
+    public bool heal(int heal)
+    {
+        if (hp == maxHp)
+            return false;
+        if (heal <= 0)
+            return false;
+
+        hp = Mathf.Clamp(hp + heal, 0, maxHp);
+
+        return true;
+    }
+
+    public virtual bool takeDamage(int damage, Character damageMaker=null)
+    {
+        if (isCooldownDamaged)
+            return false;
+        if (damage <= 0)
+            return false;
+
+        hp = Mathf.Clamp(hp - damage, 0, maxHp);
+
+        if (hp == 0)
+            death(damageMaker);
+
+        timeWorldWhenLastHit = Time.GetTicksMsec();
+
+        return true;
+    }
+
+    public void makeDamage(int damage, Character target)
+    {
+        target.takeDamage(damage);
+    }
+
+    public virtual void death(Character killer=null)
+    {
+        QueueFree();
+    }
+
 }

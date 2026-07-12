@@ -5,7 +5,7 @@ public partial class Player : Character
 {
 	private CanWalk canWalk;
 	private CanFall canFall;
-	private CanCurveJump canJump;
+	private CanJump canJump;
 	private CanShoot canShoot;
 
 	private StatePlayer statePlayer = StatePlayer.Default;
@@ -17,7 +17,7 @@ public partial class Player : Character
 		canWalk = new CanWalk(speedWalk: 4000f);
 		canFall = new CanFall(this, mass: 12f);
 		canJump = new CanCurveJump(this, jumpStrength: 420f, timeJump: 0.45f);
-		canJump.canFall = canFall;
+		(canJump as CanCurveJump).canFall = canFall;
 		canShoot = new CanPoolShoot(
 			this,
 			amountToLoad: 2,

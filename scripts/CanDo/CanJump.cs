@@ -11,13 +11,17 @@ public class CanJump
         this.owner = owner;
         this.jumpStrength = jumpStrength;
     }
-    
+
     public virtual Vector2 jump(Vector2 velocity, Vector2? directionJump = null)
     {
-        if (owner.IsOnFloor())
-        {
-            velocity += (directionJump ?? Vector2.Up) * jumpStrength;
-        }
+        if (!owner.IsOnFloor())
+            return velocity;
+        
+        return velocity + (directionJump ?? Vector2.Up) * jumpStrength;
+    }
+
+    public virtual Vector2 updateJump(Vector2 velocity, float delta)
+    {
         return velocity;
     }
 }

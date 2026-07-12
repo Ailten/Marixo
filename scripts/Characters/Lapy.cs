@@ -4,106 +4,80 @@ using Godot;
 public partial class Lapy : Character
 {
     private StateLapy stateLapy = StateLapy.wait_to_jump_walk;
-    private float totalTimeAnime = 0f;
-    private Vector2 startPosAnime, endPosAnime;
-    private const float ratioUpJump = 0.5f;
-    private float distanceJumpWalk
-    {
-        get => GM.groundTileLenght;
-    }
-    private float heightJumpWalk
-    {
-        get => Math.Abs(endPosAnime.X - startPosAnime.X) * ratioUpJump;
-    }
-    private RayCast2D rayCastIsGround;
+    private bool isStateBusy = false;
+
+    private CanJump canJump;
+    private CanWait canWait;
+
+    private Vector2 posSpawn, lastPosValid;
 
     public override void _Ready()
     {
         base._Ready();
-        rayCastIsGround = GetNode<RayCast2D>("RayCast2DIsGround");
-        rayCastIsGround.Position = new Vector2(  // set position X to dest jump.
-            distanceJumpWalk,
-            rayCastIsGround.Position.Y
-        );
+        cooldownDamaged = 0.3f;
+        canJump = new CanLapyJump(this, jumpLength: GM.groundTileLenght);
+        canWait = new CanWait(timeToWait: 0.3f);
+
+        posSpawn = GlobalPosition;
+        lastPosValid = GlobalPosition;
+
+        // TODO:
+        // jump to height,
+        // no cooldown wait.
+        // desapear in border map ? (or continue at infinity).
+        // jump speed to fast.
+
+        // snap to grid.
+        GlobalPosition = GlobalPosition.snapToGrid() + (GM.groundTileLenght * 0.5f * Vector2.Right);
     }
 
     public override void _Process(double delta)
     {
-        totalTimeAnime += (float)delta;
-
-        // loop to eval new state when change.
-        bool isStillEvalState = true;
-        while (isStillEvalState)
+        switch (stateLapy)
         {
-            float i = totalTimeAnime / stateLapy.getTimeAnime();
-
-            switch (stateLapy)
-            {
-                case StateLapy.wait_to_jump_walk:
-                    if (i > 1f)
+            case StateLapy.wait_to_jump_walk:
+                if (!canWait.startWait())
+                {
+                    canWait.updateWait((float)delta);
+                    if (canWait.isWait)
                     {
-                        setNewState(StateLapy.jump_walk);
-                        if (rayCastIsGround.CollideWithBodies)
-                        {
-                            isLookAtRight = !isLookAtRight;
-                        }
-                        setPosStartEndJump(
-                            startPosAnime: GlobalPosition,
-                            endPosAnime: GlobalPosition + (
-                                (isLookAtRight ? Vector2.Right : Vector2.Left) * distanceJumpWalk
-                            )
-                        );
-                        continue;
+                        stateLapy = StateLapy.jump_walk;
                     }
-                    isStillEvalState = false;
-                    continue;
+                }
+                break;
 
-                case StateLapy.jump_walk:
-                    if (i > 1f)
+            case StateLapy.jump_walk:
+                Vector2 pos = canJump.jump(
+                    GlobalPosition,
+                    directionJump: isLookAtRight ? Vector2.Right : Vector2.Left
+                );
+                pos = canJump.updateJump(pos, (float)delta);
+                if (canJump is CanLapyJump canLapyJump)
+                {
+                    if (!canLapyJump.isJump)
                     {
-                        GlobalPosition = endPosAnime;
-                        setNewState(StateLapy.wait_to_jump_walk);
-                        continue;
+                        stateLapy = StateLapy.wait_to_jump_walk;
                     }
+                }
+                GlobalPosition = pos;
+                break;
 
-                    GlobalPosition = startPosAnime.bezierLerp(i,
-                        startPosAnime + (Vector2.Up * heightJumpWalk),
-                        endPosAnime + (Vector2.Up * heightJumpWalk),
-                        endPosAnime
-                    );
-
-                    isStillEvalState = false;
-                    continue;
-
-                case StateLapy.hited:
-
-                    // TODO.
-
-                    isStillEvalState = false;
-                    continue;
-            }
+            case StateLapy.hited:
+                // TODO.
+                break;
         }
+    }
+
+    // ------> 
+
+    public override bool takeDamage(int damage, Character damageMaker = null)
+    {
+        if (!isLiving)
+            return false;
+
         
+
+        return true;
     }
 
-    private void setNewState(StateLapy stateLapy)
-    {
-        this.stateLapy = stateLapy;
-        animatedSprite.Play(
-            stateLapy.getSpriteAnime()
-        );
-        totalTimeAnime = 0f;
-    }
-
-    private void setPosStartEndJump(Vector2 startPosAnime, Vector2 endPosAnime)
-    {
-        this.startPosAnime = startPosAnime;
-        this.endPosAnime = endPosAnime;
-    }
-
-	protected override void applyFlipH()
-    {
-        base.applyFlipH();
-        GetNode<Marker2D>("RigidBody2DTrigger").Position *= new Vector2(-1, 1);
-    }
 }

@@ -16,6 +16,7 @@ public class CanShoot
 	{
 		get => endMarker.GlobalPosition;
 	}
+    public int damageMaking = 1;
 
 	public CanShoot(CharacterBody2D owner, Node2D startMarker = null, Node2D endMarker = null)
 	{
@@ -34,7 +35,7 @@ public class CanShoot
         PackedScene sceneProjectil = GD.Load<PackedScene>("res://customNode/fist.tscn");
         projectil = sceneProjectil.Instantiate<Node2D>();
         (projectil as Projectil).setData(
-            startPos ?? this.startPos,
+            startPos ?? this.startPos,  // FIXME: both can be null, in this case, force the shoot call to get parameters values.
             endPos ?? this.endPos,
             timeTravel,
             this
@@ -54,10 +55,13 @@ public class CanShoot
 		projectil.QueueFree();
 	}
 
-	public void projectilTrigger(Node2D projectil, Node2D body)
+	public void projectilTrigger(Node2D projectil, Node2D bodyColliding)
 	{
-        // TODO: make damage to target if body has a script Character (impement HP etc).
-		Console.WriteLine($"Touched : {body.Name}");
+        if (bodyColliding is Character characterColliding)
+        {
+            (owner as Character).makeDamage(damageMaking, characterColliding);
+        }
+
 		projectilEndTravel(projectil);
 	}
 

@@ -52,7 +52,7 @@ public partial class Projectil : Node2D
 		launcher.projectilEndTravel((this as Node2D));
 	}
 
-	protected void onTriggerEnter(Node2D body)
+	protected virtual void onTriggerEnter(Node2D body)
 	{
 		launcher.projectilTrigger((this as Node2D), body);
 	}
