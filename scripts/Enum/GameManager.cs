@@ -4,16 +4,17 @@ public static class GM
 {
     public static float groundTileLenght
     {
+        //get => 213.8225f;  // scale by tilemap transform.
         get => 427.645f;  // eval with markers.
         // get => 425f;  // rounded manually.
     }
 
     private static Vector2 origineWorld = new Vector2(510.005f, 764.915f);
 
-    public static Vector2 snapToGrid(this Vector2 pos)
+    public static Vector2 snapToGrid(this Vector2 pos, float scale=0.25f)
     {
-        pos.X -= pos.X % origineWorld.X;
-        pos.Y -= pos.Y % origineWorld.Y;
+        pos.X -= pos.X % (origineWorld.X * scale);
+        pos.Y -= pos.Y % (origineWorld.Y * scale);
         return pos;
     }
 

@@ -29,7 +29,7 @@ public class CanLapyJump : CanJump
     }
 
 
-    public CanLapyJump(CharacterBody2D owner, float jumpLength, float speedJump = 0.3f) : base(owner, jumpLength)
+    public CanLapyJump(CharacterBody2D owner, float jumpLength, float speedJump = 0.85f) : base(owner, jumpLength)
     {
         this.speedJump = speedJump;
     }
