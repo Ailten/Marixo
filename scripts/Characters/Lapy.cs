@@ -16,13 +16,15 @@ public partial class Lapy : Character
     public override void _Ready()
     {
         base._Ready();
-        cooldownDamaged = 0.3f;
+        canBeHit.cooldownDamaged = 0.3f;
         float jumpLength = GM.groundTileLenght * 0.3f;
         canJump = new CanLapyJump(this, jumpLength: jumpLength);
         canWait = new CanWait(timeToWait: 5.6f);
 
         posSpawn = GlobalPosition;
         lastPosValid = GlobalPosition;
+        
+        canBeHit = CanBeHitRepealToPos.evolvFrom(canBeHit);
 
         // TODO:
         // Colision to player, to make damage.
@@ -42,6 +44,9 @@ public partial class Lapy : Character
 
         rayCastIsGround = GetNode<RayCast2D>("RayCast2DIsGround");
         rayCastIsGround.Position = new Vector2(jumpLength, rayCastIsGround.Position.Y);  // set position X to dest jump.
+
+        // set Character as the Monster for the AreaMonsterAtk.
+        (GetNode<Area2D>("Area2DCollideHit") as AreaMonsterAtk).monsterWhoAtk = this;
     }
 
     public override void _Process(double delta)
@@ -86,7 +91,15 @@ public partial class Lapy : Character
                 break;
 
             case StateLapy.hited:
-                // TODO.
+                float i = canBeHit.interpolateCooldownDamaged;
+                if (!canBeHit.isCooldownDamaged)
+                {
+                    stateLapy = StateLapy.wait_to_jump_walk;
+                    animatedSprite.Play(stateLapy.getSpriteAnime());
+                    GlobalPosition = (canBeHit as CanBeHitRepealToPos).posDestRepeal;
+                    break;
+                }
+                GlobalPosition = canBeHit.getRepealVelocityUpdate(Vector2.Zero);
                 break;
         }
     }
@@ -104,7 +117,10 @@ public partial class Lapy : Character
         if (!isLiving)
             return false;
 
-        
+        // switch state hited.
+        stateLapy = StateLapy.hited;
+        animatedSprite.Play(stateLapy.getSpriteAnime());
+        (canBeHit as CanBeHitRepealToPos).posDestRepeal = lastPosValid;
 
         return true;
     }

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dsdc65a8451de" path="res://scripts/Characters/Player.cs" id="1_pm33x"]
 [ext_resource type="Texture2D" uid="uid://yyvi36cc6sse" path="res://sprites/player_jump_2.png" id="2_pm33x"]
 [ext_resource type="Texture2D" uid="uid://bnpsw2a1s4u5p" path="res://sprites/player_jump_1.png" id="3_ijh31"]
+[ext_resource type="Texture2D" uid="uid://cd7w3uteidg88" path="res://sprites/player_hit.png" id="3_q22w7"]
 [ext_resource type="Texture2D" uid="uid://cvcirdys2a26k" path="res://sprites/player_stand_1.png" id="4_q22w7"]
 [ext_resource type="Texture2D" uid="uid://c102l34hb5bk3" path="res://sprites/player_walk_1_bis.png" id="5_yx0en"]
 [ext_resource type="Texture2D" uid="uid://ck0lmuujp4mt6" path="res://sprites/player_walk_2.png" id="6_mjq80"]
@@ -16,6 +17,14 @@ animations = [{
 }],
 "loop": 1,
 "name": &"atk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_q22w7")
+}],
+"loop": 1,
+"name": &"be_hit",
 "speed": 5.0
 }, {
 "frames": [{
@@ -74,7 +83,7 @@ script = ExtResource("1_pm33x")
 position = Vector2(0, -57.64)
 scale = Vector2(0.269, 0.269)
 sprite_frames = SubResource("SpriteFrames_pm33x")
-animation = &"atk"
+animation = &"be_hit"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=469422732]
 position = Vector2(0, -55.57)

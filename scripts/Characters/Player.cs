@@ -7,6 +7,7 @@ public partial class Player : Character
 	private CanFall canFall;
 	private CanJump canJump;
 	private CanShoot canShoot;
+	private CanRespawn canRespawn;
 
 	private StatePlayer statePlayer = StatePlayer.Default;
 
@@ -14,6 +15,8 @@ public partial class Player : Character
 	{
 		base._Ready();
 		intencityVelocityTaken = 0.85f;
+		setMaxHp = 3;
+
 		canWalk = new CanWalk(speedWalk: 4000f);
 		canFall = new CanFall(this, mass: 12f);
 		canJump = new CanCurveJump(this, jumpStrength: 420f, timeJump: 0.45f);
@@ -24,6 +27,7 @@ public partial class Player : Character
 			startMarker: GetNode<Marker2D>("FistShootStartMarker"),
 			endMarker: GetNode<Marker2D>("FistShootEndMarker")
 		);
+		canRespawn = new CanRespawn(this);
 	}
 
 	//public override void _Process(double delta)
@@ -67,9 +71,17 @@ public partial class Player : Character
 			canWalk.isWalking = !canWalk.isWalking;
 		}
 
+		// anime hit.
+		bool isHited = canBeHit.isCooldownDamaged;
+		if (isHited)
+		{
+			newStatePlayer = StatePlayer.Be_Hit;  // set state (for sprite).
+			velocity = canBeHit.getRepealVelocityUpdate(velocity);  // set repeal velocity.
+		}
+
 		// apply jump.
 		bool isJumpInput = Input.IsActionJustPressed("jump");
-		if (isJumpInput)
+		if (isJumpInput && !isHited)
 		{
 			velocity = canJump.jump(velocity);
 		}
@@ -77,7 +89,7 @@ public partial class Player : Character
 
 		// apply shoot.
 		bool isShootInput = Input.IsActionJustPressed("shoot");
-		if (isShootInput)
+		if (isShootInput && !isHited)
 		{
 			canShoot.shoot();
 		}
@@ -91,7 +103,7 @@ public partial class Player : Character
 
 			// apply sprite jump or fall.
 			bool isMovingVerticaly = Math.Abs(velocity.Y) > 0.01f;
-			if (isMovingVerticaly)
+			if (isMovingVerticaly && !isHited)
 			{
 				bool isFallingUp = velocity.Y > 0f;
 				newStatePlayer = isFallingUp ? StatePlayer.Fall : StatePlayer.Jump;
@@ -117,5 +129,13 @@ public partial class Player : Character
 		GetNode<Marker2D>("FistShootStartMarker").Position *= new Vector2(-1, 1);
 		GetNode<Marker2D>("FistShootEndMarker").Position *= new Vector2(-1, 1);
 	}
+
+	// ------>
+
+	public override void death(Character killer = null)
+	{
+		canRespawn.teleportRespawn();
+		refillLive();
+    }
 
 }

@@ -19,12 +19,14 @@ public partial class Character : CharacterBody2D
 
 	protected float intencityVelocityTaken = 0.95f;
 
-	public override void _Ready()
-	{
-		// get and set default value to AnimatedSprite2D child.
-		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		animatedSprite.FlipH = false;
-		animatedSprite.Play("default");
+    public override void _Ready()
+    {
+        // get and set default value to AnimatedSprite2D child.
+        animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        animatedSprite.FlipH = false;
+        animatedSprite.Play("default");
+
+        canBeHit = new CanBeHit(this);
 	}
 
 	// ------>
@@ -72,16 +74,7 @@ public partial class Character : CharacterBody2D
     {
         get => hp > 0;
     }
-    protected float cooldownDamaged = 0.7f;
-    private ulong timeWorldWhenLastHit = 0;
-    public bool isCooldownDamaged
-    {
-        get => ((float)(Time.GetTicksMsec() - timeWorldWhenLastHit)) / 1000f < cooldownDamaged;
-    }
-    public float interpolateCooldownDamaged
-    {
-        get => (((float)(Time.GetTicksMsec() - timeWorldWhenLastHit)) / 1000f) / cooldownDamaged;
-    }
+    protected CanBeHit canBeHit;
 
     public void refillLive()
     {
@@ -102,7 +95,7 @@ public partial class Character : CharacterBody2D
 
     public virtual bool takeDamage(int damage, Character damageMaker=null)
     {
-        if (isCooldownDamaged)
+        if (canBeHit.isCooldownDamaged)
             return false;
         if (damage <= 0)
             return false;
@@ -112,7 +105,7 @@ public partial class Character : CharacterBody2D
         if (hp == 0)
             death(damageMaker);
 
-        timeWorldWhenLastHit = Time.GetTicksMsec();
+        canBeHit.beHit(damageMaker);  // set time world hit (for cooldown invu).
 
         return true;
     }
