@@ -61,8 +61,6 @@ public class CanShoot
         {
             (owner as Character).makeDamage(damageMaking, characterColliding);
         }
-
-		projectilEndTravel(projectil);
 	}
 
 }

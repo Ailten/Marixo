@@ -23,10 +23,12 @@ public partial class Lapy : Character
 
         posSpawn = GlobalPosition;
         lastPosValid = GlobalPosition;
-        
+
         canBeHit = CanBeHitRepealToPos.evolvFrom(canBeHit);
 
         // TODO:
+        // try hit (player and lapy + respawn player).
+
         // Colision to player, to make damage.
         // -- take damage player
         // -- respawn player
@@ -97,6 +99,10 @@ public partial class Lapy : Character
                     stateLapy = StateLapy.wait_to_jump_walk;
                     animatedSprite.Play(stateLapy.getSpriteAnime());
                     GlobalPosition = (canBeHit as CanBeHitRepealToPos).posDestRepeal;
+                    if (!isLiving)
+                    {
+                        death();
+                    }
                     break;
                 }
                 GlobalPosition = canBeHit.getRepealVelocityUpdate(Vector2.Zero);
@@ -104,7 +110,7 @@ public partial class Lapy : Character
         }
     }
 
-	protected override void applyFlipH()
+    protected override void applyFlipH()
     {
         base.applyFlipH();
         rayCastIsGround.Position *= new Vector2(-1, 1);
@@ -112,15 +118,17 @@ public partial class Lapy : Character
 
     // ------> 
 
-    public override bool takeDamage(int damage, Character damageMaker = null)
+    public override bool takeDamage(int damage, Character damageMaker = null, bool isCheckDeath=true)
     {
-        if (!isLiving)
+        bool isTakenDamage = base.takeDamage(damage, damageMaker, isCheckDeath: false);
+
+        if (!isTakenDamage)
             return false;
 
         // switch state hited.
         stateLapy = StateLapy.hited;
         animatedSprite.Play(stateLapy.getSpriteAnime());
-        (canBeHit as CanBeHitRepealToPos).posDestRepeal = lastPosValid;
+        (canBeHit as CanBeHitRepealToPos).posDestRepeal = isLiving ? lastPosValid: GlobalPosition;
 
         return true;
     }

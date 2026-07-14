@@ -57,8 +57,8 @@ public partial class Character : CharacterBody2D
 
     // ------>
 
-    private int hp = 1;
-    private int maxHp = 1;
+    protected int hp = 1;
+    protected int maxHp = 1;
     private int hpLeft
     {
         get => maxHp - hp;
@@ -93,7 +93,7 @@ public partial class Character : CharacterBody2D
         return true;
     }
 
-    public virtual bool takeDamage(int damage, Character damageMaker=null)
+    public virtual bool takeDamage(int damage, Character damageMaker=null, bool isCheckDeath=true)
     {
         if (canBeHit.isCooldownDamaged)
             return false;
@@ -102,7 +102,7 @@ public partial class Character : CharacterBody2D
 
         hp = Mathf.Clamp(hp - damage, 0, maxHp);
 
-        if (hp == 0)
+        if (hp == 0 && isCheckDeath)
             death(damageMaker);
 
         canBeHit.beHit(damageMaker);  // set time world hit (for cooldown invu).

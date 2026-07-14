@@ -46,7 +46,10 @@ public class CanPoolShoot : CanShoot
     public override void projectilEndTravel(Node2D projectil)
     {
         projectil.GlobalPosition = new Vector2(0, 9000);  // safe spot (out of map).
-        projectil.ProcessMode = Node.ProcessModeEnum.Disabled;  // disabled it.
+
+        // disabled.
+        Projectil projectilP = projectil as Projectil;
+        projectil.CallDeferred(nameof(projectilP.setProcessMode), (int)Node.ProcessModeEnum.Disabled);
     }
 
 }

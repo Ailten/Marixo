@@ -17,6 +17,7 @@ public class CanBeHit
     public float intencityRepeal = 7f;
 
     public Character owner;
+    public Character characterWhoAtk;
 
 
     public CanBeHit(Character owner)
@@ -27,6 +28,7 @@ public class CanBeHit
     public void beHit(Character characterWhoAtk = null)
     {
         timeWorldWhenLastHit = Time.GetTicksMsec();
+        this.characterWhoAtk = characterWhoAtk;
 		directionHitBackDash = ((characterWhoAtk ?? owner).GlobalPosition - owner.GlobalPosition).Normalized();
     }
 

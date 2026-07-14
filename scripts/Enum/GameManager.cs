@@ -11,7 +11,7 @@ public static class GM
 
     private static Vector2 origineWorld = new Vector2(510.005f, 764.915f);
 
-    public static Vector2 snapToGrid(this Vector2 pos, float scale=0.25f)
+    public static Vector2 snapToGrid(this Vector2 pos, float scale = 0.25f)
     {
         pos.X -= pos.X % (origineWorld.X * scale);
         pos.Y -= pos.Y % (origineWorld.Y * scale);
