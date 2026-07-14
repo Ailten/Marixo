@@ -26,13 +26,6 @@ public partial class Lapy : Character
 
         canBeHit = CanBeHitRepealToPos.evolvFrom(canBeHit);
 
-        // TODO:
-        // try hit (lapy hitting player by colision + anime damaged player + respawn player).
-
-        // Colision to player, to make damage.
-        // -- take damage player
-        // -- respawn player
-
         // snap to grid.
         GlobalPosition = (
             GlobalPosition.snapToGrid() +

@@ -39,7 +39,9 @@ public static class GM
 
 
 // TODO:
-// lapy need using "canCurveJump" (ou canBezierLerpJump) -> minimum using a "can" for jump.
-// player need a "canRespawn" -> override death.
-// lapy need override "takedamage / death" -> switch stateLapy to hit. at the end of anime hit, check to call death (else, lerp to previous pos jump).
 // character need something to print Live, or damage take when hit.
+// need a pannel (blaca ?) as tutoriel indicator (maybe PNJ with scripted scenario).
+// HUD player HP, + VN dialogue pop up.
+
+// ? explosion anime (for death lapy).
+// ? collectible coin or other props (shrimp).
