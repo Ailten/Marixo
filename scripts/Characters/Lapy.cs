@@ -16,7 +16,7 @@ public partial class Lapy : Character
     public override void _Ready()
     {
         base._Ready();
-        canBeHit.cooldownDamaged = 0.3f;
+        canBeHit.cooldownDamaged = 0.2f;
         float jumpLength = GM.groundTileLenght * 0.3f;
         canJump = new CanLapyJump(this, jumpLength: jumpLength);
         canWait = new CanWait(timeToWait: 5.6f);
@@ -27,15 +27,11 @@ public partial class Lapy : Character
         canBeHit = CanBeHitRepealToPos.evolvFrom(canBeHit);
 
         // TODO:
-        // try hit (player and lapy + respawn player).
+        // try hit (lapy hitting player by colision + anime damaged player + respawn player).
 
         // Colision to player, to make damage.
         // -- take damage player
         // -- respawn player
-        // Colision from fist player, to take damage (?).
-        // -- take damage lapy.
-        // -- take damage lerp previous pos.
-        // -- death.
 
         // snap to grid.
         GlobalPosition = (
@@ -101,7 +97,7 @@ public partial class Lapy : Character
                     GlobalPosition = (canBeHit as CanBeHitRepealToPos).posDestRepeal;
                     if (!isLiving)
                     {
-                        death();
+                        death(canBeHit.characterWhoAtk);
                     }
                     break;
                 }

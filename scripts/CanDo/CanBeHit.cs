@@ -3,7 +3,7 @@ using Godot;
 public class CanBeHit
 {
     public float cooldownDamaged = 0.7f;
-    private ulong timeWorldWhenLastHit = 0;
+    protected ulong timeWorldWhenLastHit = 0;
     public bool isCooldownDamaged
     {
         get => ((float)(Time.GetTicksMsec() - timeWorldWhenLastHit)) / 1000f < cooldownDamaged;
@@ -29,13 +29,13 @@ public class CanBeHit
     {
         timeWorldWhenLastHit = Time.GetTicksMsec();
         this.characterWhoAtk = characterWhoAtk;
-		directionHitBackDash = ((characterWhoAtk ?? owner).GlobalPosition - owner.GlobalPosition).Normalized();
+		directionHitBackDash = (owner.GlobalPosition - (characterWhoAtk ?? owner).GlobalPosition).Normalized();
     }
 
     public virtual Vector2 getRepealVelocityUpdate(Vector2 velocity)
     {
         float i = interpolateCooldownDamaged;
-        velocity += directionHitBackDash.bezierLerp(i, Vector2.Zero);
+        velocity += (directionHitBackDash * intencityRepeal).bezierLerp(i, Vector2.Zero);
         return velocity;
     }
 

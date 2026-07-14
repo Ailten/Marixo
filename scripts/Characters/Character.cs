@@ -112,7 +112,7 @@ public partial class Character : CharacterBody2D
 
     public void makeDamage(int damage, Character target)
     {
-        target.takeDamage(damage);
+        target.takeDamage(damage, this);
     }
 
     public virtual void death(Character killer=null)

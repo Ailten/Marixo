@@ -27,6 +27,9 @@ public partial class Player : Character
 			startMarker: GetNode<Marker2D>("FistShootStartMarker"),
 			endMarker: GetNode<Marker2D>("FistShootEndMarker")
 		);
+		canBeHit.cooldownDamaged = 0.3f;
+		canBeHit.intencityRepeal = 70f;
+		canBeHit = CanBeHitInvuFrame.evolvFrom(canBeHit);
 		canRespawn = new CanRespawn(this);
 	}
 
@@ -41,12 +44,45 @@ public partial class Player : Character
 
 		StatePlayer newStatePlayer = StatePlayer.Default;
 
+		// check end hit anime.
+		if (statePlayer == StatePlayer.Be_Hit && !canBeHit.isCooldownDamaged)
+		{
+			if (!isLiving)
+			{
+				death(canBeHit.characterWhoAtk);
+				return;
+			}
+
+			if (canBeHit is CanBeHitInvuFrame canBeHitInvu) {
+
+				// set invu skin (opacity).
+				animatedSprite.Modulate = animatedSprite.Modulate * new Color(1, 1, 1, 0.4f);  // 40% opacity.
+
+				// set data invu.
+				canBeHitInvu.isWasSetToInvu = true;
+			}
+		}
+
+		// check end invu frame.
+		if (canBeHit is CanBeHitInvuFrame canBeHitInvuFrame)
+		{
+			// end invu frame.
+			if (!canBeHitInvuFrame.isInvu && canBeHitInvuFrame.isWasSetToInvu)
+			{
+				// set vulné skin (opacity).
+				animatedSprite.Modulate = animatedSprite.Modulate + new Color(0, 0, 0, 1);
+
+				// set data.
+				canBeHitInvuFrame.isWasSetToInvu = false;
+			}
+		}
+
 		// get horizontal input.
 		float horizontalInput = Input.GetAxis("left", "right");
 
 		// eval if input horizontal is pressed.
 		bool isHorizontalPress = Math.Abs(horizontalInput) > 0.2f;
-		if (isHorizontalPress)
+		if (isHorizontalPress && !canBeHit.isCooldownDamaged)
 		{
 			// apply walk.
 			bool isWalkRight = horizontalInput > 0f;
@@ -132,10 +168,22 @@ public partial class Player : Character
 
 	// ------>
 
+	public override bool takeDamage(int damage, Character damageMaker = null, bool isCheckDeath = true)
+	{
+		// if take damage when invu frame.
+		if (canBeHit is CanBeHitInvuFrame canBeHitInvuFrame)
+		{
+			if (canBeHitInvuFrame.isInvu)
+				return false;
+		}
+
+		return base.takeDamage(damage, damageMaker, isCheckDeath: false);
+	}
+
 	public override void death(Character killer = null)
 	{
 		canRespawn.teleportRespawn();
 		refillLive();
-    }
+	}
 
 }

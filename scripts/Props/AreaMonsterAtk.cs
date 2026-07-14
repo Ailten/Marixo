@@ -5,7 +5,7 @@ public partial class AreaMonsterAtk : Area2D
 	[Export]
 	public Character monsterWhoAtk;
 	[Export]
-	public int damageMake;
+	public int damageMake = 1;
 
 	public override void _Ready()
 	{
