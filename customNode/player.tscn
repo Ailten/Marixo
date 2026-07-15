@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cvcirdys2a26k" path="res://sprites/player_stand_1.png" id="4_q22w7"]
 [ext_resource type="Texture2D" uid="uid://c102l34hb5bk3" path="res://sprites/player_walk_1_bis.png" id="5_yx0en"]
 [ext_resource type="Texture2D" uid="uid://ck0lmuujp4mt6" path="res://sprites/player_walk_2.png" id="6_mjq80"]
+[ext_resource type="Script" uid="uid://f320fneoeo1q" path="res://scripts/Props/PlayerSence.cs" id="9_q22w7"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_pm33x"]
 animations = [{
@@ -73,6 +74,10 @@ animations = [{
 radius = 34.32
 height = 106.86
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5fgvr"]
+radius = 37.0
+height = 112.0
+
 [node name="Player" type="CharacterBody2D" unique_id=497722777]
 z_index = 100
 collision_layer = 2
@@ -97,3 +102,12 @@ position = Vector2(35, -35)
 
 [node name="FistShootEndMarker" type="Marker2D" parent="." unique_id=667154494]
 position = Vector2(210, -35)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=396944131]
+collision_layer = 2
+collision_mask = 64
+script = ExtResource("9_q22w7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=635601417]
+position = Vector2(0, -55.57)
+shape = SubResource("CapsuleShape2D_5fgvr")

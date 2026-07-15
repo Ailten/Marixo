@@ -69,6 +69,7 @@ shoot={
 2d_physics/layer_4="Monsters"
 2d_physics/layer_5="Atk_Monsters"
 2d_physics/layer_6="Trigger_For_Player"
+2d_physics/layer_7="Sea"
 
 [physics]
 
