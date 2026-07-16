@@ -10,9 +10,18 @@ public class CanCurveJump : CanJump
     public CanFall canFall = null;
     private float gravityMult;
 
-    public bool isStartingJump
+    public virtual bool isStartingJump
     {
         get => timeFromJump < (timeJump * 0.1f);
+    }
+
+    protected virtual float getJumpStrength
+    {
+        get => jumpStrength;
+    }
+    protected virtual float getInterpolationTime
+    {
+        get => timeFromJump / timeJump;
     }
 
     public CanCurveJump(CharacterBody2D owner, float jumpStrength = 10f, float timeJump = 1f) : base(owner, jumpStrength)
@@ -47,7 +56,9 @@ public class CanCurveJump : CanJump
             return velocity;
 
         timeFromJump += delta;
-        if (timeFromJump >= timeJump)
+        float i = getInterpolationTime;  // interpolate linear.
+
+        if (i >= 1f)
         {
             endJump();
             return velocity;
@@ -61,15 +72,14 @@ public class CanCurveJump : CanJump
             endJump();
             return velocity;
         }
-
-        float i = timeFromJump / timeJump;  // interpolate linear.
+        
         float i_curv;
         bool isFall = i > 0.5f;
         if (!isFall)
         {
             i *= 2f;  // 0~1.
-            i_curv = Mathf.Lerp(jumpStrength, 0f, i);  // 1D bezier curve normalized.
-            i_curv = Mathf.Lerp(jumpStrength, i_curv, i);
+            i_curv = Mathf.Lerp(getJumpStrength, 0f, i);  // 1D bezier curve normalized.
+            i_curv = Mathf.Lerp(getJumpStrength, i_curv, i);
         }
         else
         {

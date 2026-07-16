@@ -39,6 +39,7 @@ public static class GM
 
 
 // TODO:
+// remove colision from tile border water and deep water (usless colision, who take vertex).
 // character need something to print Live, or damage take when hit.
 // need a pannel (blaca ?) as tutoriel indicator (maybe PNJ with scripted scenario).
 // HUD player HP, + VN dialogue pop up.
