@@ -9,14 +9,14 @@ public class CanHightCurveJump : CanCurveJump
         get => jumpStrength * multiplyHight;
     }
 
-    public CanHightCurveJump(CharacterBody2D owner, float jumpStrength = 10f, float timeJump = 1f) : base(owner, jumpStrength, timeJump)
+    public CanHightCurveJump(CharacterBody2D owner, CanFall canFall, float jumpStrength = 10f, float timeJump = 1f) : base(owner, canFall, jumpStrength, timeJump)
     {
     }
 
     public static CanHightCurveJump evolvFrom(CanCurveJump ccj)
     {
         return new CanHightCurveJump(
-            ccj.owner, ccj.jumpStrength, ccj.timeJump
+            ccj.owner, ccj.canFall, ccj.jumpStrength, ccj.timeJump
         );
     }
 }

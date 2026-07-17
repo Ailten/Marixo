@@ -5,7 +5,7 @@ public class CanDoubleCurveJump : CanCurveJump
 {
     private bool isHasDoubleJump = true;
 
-    public CanDoubleCurveJump(CharacterBody2D owner, float jumpStrength = 10f, float timeJump = 1f) : base(owner, jumpStrength, timeJump)
+    public CanDoubleCurveJump(CharacterBody2D owner, CanFall canFall, float jumpStrength = 10f, float timeJump = 1f) : base(owner, canFall, jumpStrength, timeJump)
     {
     }
 
@@ -38,7 +38,7 @@ public class CanDoubleCurveJump : CanCurveJump
     public static CanDoubleCurveJump evolvFrom(CanCurveJump ccj)
     {
         return new CanDoubleCurveJump(
-            ccj.owner, ccj.jumpStrength, ccj.timeJump
+            ccj.owner, ccj.canFall, ccj.jumpStrength, ccj.timeJump
         );
     }
 }

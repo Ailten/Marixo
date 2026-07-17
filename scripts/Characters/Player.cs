@@ -5,7 +5,7 @@ public partial class Player : Character
 {
 	private CanWalk canWalk;
 	private CanFall canFall;
-	private CanJump canJump;
+	public CanJump canJump;
 	private CanShoot canShoot;
 	private CanRespawn canRespawn;
 
@@ -19,8 +19,7 @@ public partial class Player : Character
 
 		canWalk = new CanWalk(speedWalk: 4000f);
 		canFall = new CanFall(this, mass: 12f);
-		canJump = new CanCurveJump(this, jumpStrength: 420f, timeJump: 0.45f);
-		(canJump as CanCurveJump).canFall = canFall;
+		canJump = new CanCurveJump(this, canFall, jumpStrength: 420f, timeJump: 0.45f);
 		canShoot = new CanPoolShoot(
 			this,
 			amountToLoad: 2,

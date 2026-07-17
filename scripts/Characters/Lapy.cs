@@ -17,7 +17,7 @@ public partial class Lapy : Character
     {
         base._Ready();
         canBeHit.cooldownDamaged = 0.2f;
-        float jumpLength = GM.groundTileLenght * 0.3f;
+        float jumpLength = GM.groundTileLenght;
         canJump = new CanLapyJump(this, jumpLength: jumpLength);
         canWait = new CanWait(timeToWait: 5.6f);
 
@@ -28,9 +28,8 @@ public partial class Lapy : Character
 
         // snap to grid.
         GlobalPosition = (
-            GlobalPosition.snapToGrid() +
-            (GM.groundTileLenght * 0.15f * Vector2.Right) +  // center of a tile.
-            (GM.groundTileLenght * 0.3f * 0.0625f * Vector2.Down)  // snap to grass.
+            GlobalPosition.snapToCenterGrid() +
+            (GM.groundTileSize.Y * (0.5f + GM.sixteenFraction) * Vector2.Down)  // snap to grass.
         );
 
         rayCastIsGround = GetNode<RayCast2D>("RayCast2DIsGround");

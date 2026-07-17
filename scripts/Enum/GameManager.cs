@@ -2,20 +2,54 @@ using Godot;
 
 public static class GM
 {
+    public static TileMapLayer tileMapLayer;
+    public static Vector2 groundTileSize;
     public static float groundTileLenght
     {
-        //get => 213.8225f;  // scale by tilemap transform.
-        get => 427.645f;  // eval with markers.
-        // get => 425f;  // rounded manually.
+        get => groundTileSize.X;
+    }
+    public static float sixteenFraction
+    {
+        get => 0.0625f;
     }
 
-    private static Vector2 origineWorld = new Vector2(510.005f, 764.915f);
-
-    public static Vector2 snapToGrid(this Vector2 pos, float scale = 0.25f)
+    public static Vector2 snapToGrid(this Vector2 pos)
     {
-        pos.X -= pos.X % (origineWorld.X * scale);
-        pos.Y -= pos.Y % (origineWorld.Y * scale);
-        return pos;
+        // self made (less opti).
+        Vector2 posReduced = pos - (pos % groundTileSize);
+        Vector2 dif = (pos - posReduced).Abs();
+        if (dif.X > groundTileSize.X * 0.5f)
+            posReduced.X += (pos.X < groundTileSize.X * 0.5f ?
+                -groundTileSize.X :
+                groundTileSize.X
+            );
+        if (dif.Y > groundTileSize.Y * 0.5f)
+            posReduced.Y += (pos.Y < groundTileSize.Y * 0.5f ?
+                -groundTileSize.Y :
+                groundTileSize.Y
+            );
+        return posReduced;
+
+        // get index of cell map (from pos world).
+        //Vector2I cellMapIndex = tileMapLayer.LocalToMap(
+        //    tileMapLayer.ToLocal(pos)
+        //);
+        //// get pos world (from index cell map).
+        //Vector2 snapped = tileMapLayer.ToGlobal(
+        //    tileMapLayer.MapToLocal(cellMapIndex)
+        //);
+        //// correct position.
+        //snapped += new Vector2(-28, 50);
+        //return snapped;
+    }
+
+    public static Vector2 snapToCenterGrid(this Vector2 pos)
+    {
+        Vector2 posSnapped = pos.snapToGrid();
+        Vector2 dif = pos - posSnapped;
+        Vector2 difNormalised = new Vector2(dif.X < 0 ? -0.5f : 0.5f, dif.Y < 0 ? -0.5f : 0.5f);
+        posSnapped += difNormalised * groundTileSize;
+        return posSnapped;
     }
 
     public static Vector2 bezierLerp(this Vector2 startingPos, float i, params Vector2[] otherPos)
@@ -37,12 +71,26 @@ public static class GM
     }
 }
 
+// z-index print sprite (Ordering):
+//     << the back >>
+// ground :              0
+// boost :              80
+// mob :                90
+// player :            100
+// player projectil :  110
+//     << the front >>
 
 // TODO:
 // remove colision from tile border water and deep water (usless colision, who take vertex).
 // character need something to print Live, or damage take when hit.
 // need a pannel (blaca ?) as tutoriel indicator (maybe PNJ with scripted scenario).
 // HUD player HP, + VN dialogue pop up.
+// add pnj talkable (for tuto) -> blaca.
+// add boost (jump, shoot).
+// add menu.
+// add background level (paralax ?).
+// add a groundPownd.
+// add an "echel".
 
 // ? explosion anime (for death lapy).
 // ? collectible coin or other props (shrimp).

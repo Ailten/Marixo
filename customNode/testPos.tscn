@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dixdj8lvnkymb"]
+
+[ext_resource type="Script" uid="uid://bs150lrksk265" path="res://scripts/Props/TestPos.cs" id="1_dcr5v"]
+
+[node name="Node2D" type="Node2D" unique_id=769428763]
+script = ExtResource("1_dcr5v")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1640961241]
+
+[node name="RayCast2D2" type="RayCast2D" parent="." unique_id=1874317331]
+target_position = Vector2(0, -50)
+
+[node name="RayCast2D3" type="RayCast2D" parent="." unique_id=743486796]
+target_position = Vector2(50, 0)
+
+[node name="RayCast2D4" type="RayCast2D" parent="." unique_id=688129712]
+target_position = Vector2(-50, 0)

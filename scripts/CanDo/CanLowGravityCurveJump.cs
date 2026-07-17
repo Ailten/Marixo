@@ -13,14 +13,14 @@ public class CanLowGravityCurveJump : CanCurveJump
         get => base.getInterpolationTime * timeJumpMult;
     }
 
-    public CanLowGravityCurveJump(CharacterBody2D owner, float jumpStrength = 10f, float timeJump = 1f) : base(owner, jumpStrength, timeJump)
+    public CanLowGravityCurveJump(CharacterBody2D owner, CanFall canFall, float jumpStrength = 10f, float timeJump = 1f) : base(owner, canFall, jumpStrength, timeJump)
     {
     }
 
     public static CanLowGravityCurveJump evolvFrom(CanCurveJump ccj)
     {
         return new CanLowGravityCurveJump(
-            ccj.owner, ccj.jumpStrength, ccj.timeJump
+            ccj.owner, ccj.canFall, ccj.jumpStrength, ccj.timeJump
         );
     }
 }

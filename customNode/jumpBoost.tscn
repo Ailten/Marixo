@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cuppwu53ydd01"]
+
+[ext_resource type="Script" uid="uid://7jc3axl835gn" path="res://scripts/Props/JumpBoost.cs" id="1_s0uw5"]
+[ext_resource type="Texture2D" uid="uid://mto5r4cjteyp" path="res://sprites/appel.png" id="2_2byvd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5fgvr"]
+radius = 34.0
+
+[node name="JumpBoost" type="Node2D" unique_id=1031996858]
+z_index = 80
+script = ExtResource("1_s0uw5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1630136578]
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("2_2byvd")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=485155705]
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=222016192]
+shape = SubResource("CircleShape2D_5fgvr")
