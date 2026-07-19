@@ -105,9 +105,9 @@ public static class GM
 // make slower the lapy jump.
 // make speeder the lapy lerp damage.
 // add effect when take a boost.
-// add check point.
+// add check point (area2D).
 // make lapy spawn shrimp.
-// make a respawnableElement manager, for respawn all mobs killed when player respawn.
+// make fruits_box (for random spawn boost).
 
 // ? explosion anime (for death lapy).
 // ? collectible coin or other props (shrimp).
