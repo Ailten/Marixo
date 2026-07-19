@@ -1,9 +1,11 @@
 using Godot;
 
-public partial class Explo : Node2D
+public partial class Explo : Node2D, IPoolableProps
 {
     private ulong timeWorldWhenSpawn;
     private const float timeToLive = 0.2f * 3;
+    
+    public static PoolProps<Explo> pool = new PoolProps<Explo>("explo", poolSize: 6);
 
     public override void _Ready()
     {

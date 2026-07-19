@@ -13,6 +13,8 @@ public static class GM
         get => 0.0625f;
     }
 
+    public static Node2D root;
+
     public static Vector2 snapToGrid(this Vector2 pos)
     {
         // self made (less opti).
@@ -97,8 +99,8 @@ public static class GM
 // make speeder the lapy lerp damage.
 // add effect when take a boost.
 // add check point.
-// make Explo static pool (on a generic way, for can be re-use. help with canPoolShot script).
 // make lapy spawn shrimp.
+// make a respawnableElement manager, for respawn all mobs killed when player respawn.
 
 // ? explosion anime (for death lapy).
 // ? collectible coin or other props (shrimp).

@@ -6,5 +6,6 @@ public partial class TileMapWorld : TileMapLayer
     {
         GM.tileMapLayer = this;
         GM.groundTileSize = TileSet.TileSize * Scale;
+        GM.root = GetNode<Node2D>("..");
     }
 }

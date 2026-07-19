@@ -137,13 +137,12 @@ public partial class Lapy : Character
 
     public override void death(Character killer = null)
     {
-        // spawn explosion.
-        PackedScene exploScene = GD.Load<PackedScene>("res://customNode/explo.tscn");
-        Node2D explo = exploScene.Instantiate<Node2D>();
+        // spawn explosion (from pool).
+        Explo explo = Explo.pool.getNextElement();
         explo.GlobalPosition = GlobalPosition + (Vector2.Up * 20f);
         explo.Scale = Vector2.One * 0.5f;
-        GetNode<Node2D>("..").AddChild(explo);
 
+        // queue free lapy.
         base.death(killer);
     }
 
