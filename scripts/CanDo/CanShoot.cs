@@ -33,7 +33,7 @@ public class CanShoot
         timeUntilNextShot = cooldownShot;
 
         PackedScene sceneProjectil = GD.Load<PackedScene>("res://customNode/fist.tscn");
-        projectil = sceneProjectil.Instantiate<Node2D>();
+        projectil ??= sceneProjectil.Instantiate<Node2D>();
         (projectil as Projectil).setData(
             startPos ?? this.startPos,  // FIXME: both can be null, in this case, force the shoot call to get parameters values.
             endPos ?? this.endPos,

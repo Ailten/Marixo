@@ -68,7 +68,7 @@ public class CanLapyJump : CanJump
         return posA.bezierLerp(i, posB, posC, posD);
     }
 
-    private void endJump()
+    public void endJump()
     {
         isJumping = false;
     }

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://w00m3bb1gjcy"]
+
+[ext_resource type="Script" uid="uid://40n0iny347un" path="res://scripts/Props/Explo.cs" id="1_fvcta"]
+[ext_resource type="Texture2D" uid="uid://dx5ff0nkwdj87" path="res://sprites/explo_1.png" id="1_v5imo"]
+[ext_resource type="Texture2D" uid="uid://drl607roior4p" path="res://sprites/explo_2.png" id="2_fvcta"]
+[ext_resource type="Texture2D" uid="uid://c0uy10f2or1ui" path="res://sprites/explo_3.png" id="3_3lqis"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5fgvr"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v5imo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_fvcta")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3lqis")
+}],
+"loop": 0,
+"name": &"explo",
+"speed": 5.0
+}]
+
+[node name="explo" type="Node2D" unique_id=1863542739]
+script = ExtResource("1_fvcta")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=9905031]
+z_index = 70
+sprite_frames = SubResource("SpriteFrames_5fgvr")
+animation = &"explo"

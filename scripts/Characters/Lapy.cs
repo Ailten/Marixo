@@ -16,10 +16,12 @@ public partial class Lapy : Character
     public override void _Ready()
     {
         base._Ready();
-        canBeHit.cooldownDamaged = 0.2f;
+        canBeHit.cooldownDamaged = 0.1f;
         float jumpLength = GM.groundTileLenght;
         canJump = new CanLapyJump(this, jumpLength: jumpLength);
-        canWait = new CanWait(timeToWait: 5.6f);
+        canWait = new CanWait(timeToWait: 2.5f);
+
+        setMaxHp = 2;
 
         posSpawn = GlobalPosition;
         lastPosValid = GlobalPosition;
@@ -81,7 +83,6 @@ public partial class Lapy : Character
                 break;
 
             case StateLapy.hited:
-                float i = canBeHit.interpolateCooldownDamaged;
                 if (!canBeHit.isCooldownDamaged)
                 {
                     stateLapy = StateLapy.wait_to_jump_walk;
@@ -106,19 +107,44 @@ public partial class Lapy : Character
 
     // ------> 
 
-    public override bool takeDamage(int damage, Character damageMaker = null, bool isCheckDeath=true)
+    public override bool takeDamage(int damage, Character damageMaker = null, bool isCheckDeath = true)
     {
         bool isTakenDamage = base.takeDamage(damage, damageMaker, isCheckDeath: false);
 
         if (!isTakenDamage)
             return false;
 
+        // reset all states cooldown.
+        if (canWait.isWait)
+        {
+            canWait.endWait();
+        }
+        if (canJump is CanLapyJump canLapyJump)
+        {
+            if (canLapyJump.isJump)
+            {
+                canLapyJump.endJump();
+            }
+        }
+
         // switch state hited.
         stateLapy = StateLapy.hited;
         animatedSprite.Play(stateLapy.getSpriteAnime());
-        (canBeHit as CanBeHitRepealToPos).posDestRepeal = isLiving ? lastPosValid: GlobalPosition;
+        (canBeHit as CanBeHitRepealToPos).posDestRepeal = isLiving ? lastPosValid : GlobalPosition;
 
         return true;
+    }
+
+    public override void death(Character killer = null)
+    {
+        // spawn explosion.
+        PackedScene exploScene = GD.Load<PackedScene>("res://customNode/explo.tscn");
+        Node2D explo = exploScene.Instantiate<Node2D>();
+        explo.GlobalPosition = GlobalPosition + (Vector2.Up * 20f);
+        explo.Scale = Vector2.One * 0.5f;
+        GetNode<Node2D>("..").AddChild(explo);
+
+        base.death(killer);
     }
 
 }

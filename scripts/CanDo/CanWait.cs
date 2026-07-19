@@ -31,7 +31,7 @@ public class CanWait
             endWait();
     }
 
-    private void endWait()
+    public void endWait()
     {
         isWaiting = false;
     }

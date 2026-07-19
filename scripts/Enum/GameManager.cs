@@ -74,6 +74,7 @@ public static class GM
 // z-index print sprite (Ordering):
 //     << the back >>
 // ground :              0
+// fx :                 70
 // boost :              80
 // mob :                90
 // player :            100
@@ -86,11 +87,18 @@ public static class GM
 // need a pannel (blaca ?) as tutoriel indicator (maybe PNJ with scripted scenario).
 // HUD player HP, + VN dialogue pop up.
 // add pnj talkable (for tuto) -> blaca.
-// add boost (jump, shoot).
+// add boost (shoot).
 // add menu.
 // add background level (paralax ?).
 // add a groundPownd.
 // add an "echel".
+// debug lowGravityCurveJump.
+// make slower the lapy jump.
+// make speeder the lapy lerp damage.
+// add effect when take a boost.
+// add check point.
+// make Explo static pool (on a generic way, for can be re-use. help with canPoolShot script).
+// make lapy spawn shrimp.
 
 // ? explosion anime (for death lapy).
 // ? collectible coin or other props (shrimp).
