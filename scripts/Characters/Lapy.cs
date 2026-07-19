@@ -1,10 +1,9 @@
 using System;
 using Godot;
 
-public partial class Lapy : Character
+public partial class Lapy : Character, IPoolableRespawn
 {
     private StateLapy stateLapy = StateLapy.wait_to_jump_walk;
-    private bool isStateBusy = false;
 
     private CanJump canJump;
     private CanWait canWait;
@@ -23,9 +22,6 @@ public partial class Lapy : Character
 
         setMaxHp = 2;
 
-        posSpawn = GlobalPosition;
-        lastPosValid = GlobalPosition;
-
         canBeHit = CanBeHitRepealToPos.evolvFrom(canBeHit);
 
         // snap to grid.
@@ -34,11 +30,31 @@ public partial class Lapy : Character
             (GM.groundTileSize.Y * (0.5f + GM.sixteenFraction) * Vector2.Down)  // snap to grass.
         );
 
+        posSpawn = GlobalPosition;
+        lastPosValid = GlobalPosition;
+
         rayCastIsGround = GetNode<RayCast2D>("RayCast2DIsGround");
         rayCastIsGround.Position = new Vector2(jumpLength, rayCastIsGround.Position.Y);  // set position X to dest jump.
 
         // set Character as the Monster for the AreaMonsterAtk.
         (GetNode<Area2D>("Area2DCollideHit") as AreaMonsterAtk).monsterWhoAtk = this;
+
+
+        // set spawn param.
+        isLookAtRightSpawn = isLookAtRight;
+
+        spawn();
+        PoolRespawn.setInPool(this);
+    }
+
+    private bool isLookAtRightSpawn;
+    public void spawn()
+    {
+        GlobalPosition = posSpawn;
+        if (isLookAtRightSpawn ^ isLookAtRight)
+            isLookAtRight = !isLookAtRight;
+            
+        refillLive();
     }
 
     public override void _Process(double delta)
@@ -115,6 +131,18 @@ public partial class Lapy : Character
             return false;
 
         // reset all states cooldown.
+        resetCooldown();
+
+        // switch state hited.
+        stateLapy = StateLapy.hited;
+        animatedSprite.Play(stateLapy.getSpriteAnime());
+        (canBeHit as CanBeHitRepealToPos).posDestRepeal = isLiving ? lastPosValid : GlobalPosition;
+
+        return true;
+    }
+
+    private void resetCooldown()
+    {
         if (canWait.isWait)
         {
             canWait.endWait();
@@ -126,13 +154,6 @@ public partial class Lapy : Character
                 canLapyJump.endJump();
             }
         }
-
-        // switch state hited.
-        stateLapy = StateLapy.hited;
-        animatedSprite.Play(stateLapy.getSpriteAnime());
-        (canBeHit as CanBeHitRepealToPos).posDestRepeal = isLiving ? lastPosValid : GlobalPosition;
-
-        return true;
     }
 
     public override void death(Character killer = null)
@@ -141,8 +162,8 @@ public partial class Lapy : Character
         Explo explo = Explo.pool.getNextElement();
         explo.initExplo(GlobalPosition + (Vector2.Up * 20f), Vector2.One * 0.5f);
 
-        // queue free lapy.
-        base.death(killer);
+        // unspawn.
+        (this as IPoolableRespawn).unspawn();
     }
 
 }

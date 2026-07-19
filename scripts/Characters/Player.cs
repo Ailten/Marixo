@@ -183,6 +183,9 @@ public partial class Player : Character
 	{
 		canRespawn.teleportRespawn();
 		refillLive();
+
+		// respawn all mobs and traps.
+		PoolRespawn.respawnAllDisabled();
 	}
 
 }
