@@ -71,6 +71,13 @@ public static class GM
         }
         return nextStartingPos.bezierLerp(i, nextOtherPos);
     }
+
+    public static void setProcessModeDeferred(this Node2D node, Node.ProcessModeEnum processMode)
+    {
+        Callable.From(() =>
+            node.ProcessMode = processMode
+        ).CallDeferred();
+    }
 }
 
 // z-index print sprite (Ordering):

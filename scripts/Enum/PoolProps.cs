@@ -40,7 +40,7 @@ public interface IPoolableProps
     {
         if (this is Node2D elementPool)
         {
-            elementPool.CallDeferred(nameof(setProcessMode), (int)Node.ProcessModeEnum.Inherit);
+            elementPool.setProcessModeDeferred(Node.ProcessModeEnum.Inherit);
         }
         else
             GD.PrintErr($"IPoolableProps, element is not Node2D.");
@@ -51,17 +51,7 @@ public interface IPoolableProps
         {
             elementPool.GlobalPosition = new Vector2(0, 9000);  // safe spot (out of map).
             elementPool.Scale = Vector2.One;  // reset scale.
-            elementPool.CallDeferred(nameof(setProcessMode), (int)Node.ProcessModeEnum.Disabled);
-        }
-        else
-            GD.PrintErr($"IPoolableProps, element is not Node2D.");
-    }
-
-    private void setProcessMode(int processMode)
-    {
-        if (this is Node2D elementPool)
-        {
-            elementPool.ProcessMode = (Node.ProcessModeEnum)processMode;
+            elementPool.setProcessModeDeferred(Node.ProcessModeEnum.Disabled);
         }
         else
             GD.PrintErr($"IPoolableProps, element is not Node2D.");

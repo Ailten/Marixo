@@ -31,6 +31,6 @@ public partial class Explo : Node2D, IPoolableProps
 
     public void endExplo()
     {
-        QueueFree();
+        (this as IPoolableProps).setElementPoolSleep();
     }
 }

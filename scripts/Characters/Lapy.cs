@@ -139,8 +139,7 @@ public partial class Lapy : Character
     {
         // spawn explosion (from pool).
         Explo explo = Explo.pool.getNextElement();
-        explo.GlobalPosition = GlobalPosition + (Vector2.Up * 20f);
-        explo.Scale = Vector2.One * 0.5f;
+        explo.initExplo(GlobalPosition + (Vector2.Up * 20f), Vector2.One * 0.5f);
 
         // queue free lapy.
         base.death(killer);

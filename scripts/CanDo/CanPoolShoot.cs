@@ -48,8 +48,7 @@ public class CanPoolShoot : CanShoot
         projectil.GlobalPosition = new Vector2(0, 9000);  // safe spot (out of map).
 
         // disabled.
-        Projectil projectilP = projectil as Projectil;
-        projectil.CallDeferred(nameof(projectilP.setProcessMode), (int)Node.ProcessModeEnum.Disabled);
+        projectil.setProcessModeDeferred(Node.ProcessModeEnum.Disabled);
     }
 
 }
