@@ -57,10 +57,14 @@ public class CanShoot
 
 	public void projectilTrigger(Node2D projectil, Node2D bodyColliding)
 	{
-        if (bodyColliding is Character characterColliding)
-        {
-            (owner as Character).makeDamage(damageMaking, characterColliding);
-        }
+		if (bodyColliding is Character characterColliding)
+		{
+			(owner as Character).makeDamage(damageMaking, characterColliding);
+		}
+		else if (bodyColliding is IShootable bodyShootable)
+		{
+			bodyShootable.takeShoot(projectil);
+		}
 	}
 
 }

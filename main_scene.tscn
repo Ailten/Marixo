@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://sotdva6otk8w" path="res://scripts/Props/Camera.cs" id="3_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://b2oswi6yts84l" path="res://customNode/lapy.tscn" id="4_d5x1h"]
 [ext_resource type="PackedScene" uid="uid://cuppwu53ydd01" path="res://customNode/jumpBoost.tscn" id="5_8mm7a"]
+[ext_resource type="PackedScene" uid="uid://8f11u5400u3s" path="res://customNode/fruitsBox.tscn" id="7_nfk4m"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8mm7a"]
 texture = ExtResource("3_d5x1h")
@@ -302,3 +303,6 @@ position = Vector2(2103, 759)
 
 [node name="JumpBoost" parent="." unique_id=1031996858 instance=ExtResource("5_8mm7a")]
 position = Vector2(2869, 575)
+
+[node name="FruitsBox" parent="." unique_id=2141503174 instance=ExtResource("7_nfk4m")]
+position = Vector2(1339, 738)

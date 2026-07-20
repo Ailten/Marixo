@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class JumpBoost : Node2D
+public partial class JumpBoost : Node2D, IPoolableProps
 {
     private JumpBoostType jumpBoostType = JumpBoostType.Appel;
     private Vector2 posSpawn;
@@ -10,6 +10,8 @@ public partial class JumpBoost : Node2D
     {
         get => timeWaveAnime * 1000f;
     }
+
+    public static PoolProps<JumpBoost> pool = new PoolProps<JumpBoost>("jumpBoost", poolSize:4);
 
     public override void _Ready()
     {
@@ -28,10 +30,14 @@ public partial class JumpBoost : Node2D
         posSpawn = GlobalPosition;
     }
 
-    public void setData(JumpBoostType jumpBoostType)
+    public void setData(JumpBoostType jumpBoostType, Vector2 pos)
     {
         this.jumpBoostType = jumpBoostType;
         GetNode<Sprite2D>("Sprite2D").Texture = GD.Load<Texture2D>($"res://sprites/{jumpBoostType.ToString().ToLower()}.png");
+
+        // set pos (center tile map).
+        GlobalPosition = pos.snapToCenterGrid();
+        posSpawn = GlobalPosition;
     }
 
     public override void _Process(double delta)

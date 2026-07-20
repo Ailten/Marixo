@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public static class GM
@@ -7,10 +8,6 @@ public static class GM
     public static float groundTileLenght
     {
         get => groundTileSize.X;
-    }
-    public static float sixteenFraction
-    {
-        get => 0.0625f;
     }
 
     public static Node2D root;
@@ -53,6 +50,15 @@ public static class GM
         posSnapped += difNormalised * groundTileSize;
         return posSnapped;
     }
+
+    public static Vector2 snapToGround(this Vector2 pos)
+    {
+        Vector2 posSnappedCenter = pos.snapToCenterGrid();
+        posSnappedCenter += Vector2.Down * (groundTileLenght * (0.5f + 1 / 16f));
+        return posSnappedCenter;
+    }
+
+    public static Random rand = new Random();
 
     public static Vector2 bezierLerp(this Vector2 startingPos, float i, params Vector2[] otherPos)
     {
@@ -107,7 +113,10 @@ public static class GM
 // add effect when take a boost.
 // add check point (area2D).
 // make lapy spawn shrimp.
-// make fruits_box (for random spawn boost).
+// set random seed with methode.
+// debug gravity jump.
+// make fruits_box can be respawn (like lapy).
 
+// ? when player die : remove his upgrade.
 // ? explosion anime (for death lapy).
 // ? collectible coin or other props (shrimp).

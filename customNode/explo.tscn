@@ -24,13 +24,15 @@ animations = [{
 }],
 "loop": 0,
 "name": &"explo",
-"speed": 5.0
+"speed": 8.0
 }]
 
-[node name="explo" type="Node2D" unique_id=1863542739]
+[node name="Explo" type="Node2D" unique_id=1863542739]
 script = ExtResource("1_fvcta")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=9905031]
 z_index = 70
 sprite_frames = SubResource("SpriteFrames_5fgvr")
 animation = &"explo"
+frame = 2
+frame_progress = 1.0

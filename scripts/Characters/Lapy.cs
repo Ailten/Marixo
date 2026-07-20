@@ -24,11 +24,8 @@ public partial class Lapy : Character, IPoolableRespawn
 
         canBeHit = CanBeHitRepealToPos.evolvFrom(canBeHit);
 
-        // snap to grid.
-        GlobalPosition = (
-            GlobalPosition.snapToCenterGrid() +
-            (GM.groundTileSize.Y * (0.5f + GM.sixteenFraction) * Vector2.Down)  // snap to grass.
-        );
+        // snap to ground.
+        GlobalPosition = GlobalPosition.snapToGround();
 
         posSpawn = GlobalPosition;
         lastPosValid = GlobalPosition;

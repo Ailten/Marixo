@@ -17,7 +17,7 @@ public class PoolProps<T> where T : Node2D, IPoolableProps
             {
                 pool[i] = scriptElement;
                 pool[i].setElementPoolSleep();
-                GM.root.AddChild(pool[i]);
+                Callable.From(() => GM.root.AddChild(scriptElement)).CallDeferred();
             }
             else
                 GD.PrintErr($"PoolProps, element has no script needed.");
