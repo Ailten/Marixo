@@ -4,11 +4,11 @@ using Godot;
 public class CanCurveJump : CanJump
 {
 	public bool isJumping = false;
-	private float timeFromJump;
+	protected float timeFromJump;
 	public float timeJump;
-	private Vector2 directionJump;
+	protected Vector2 directionJump;
 	public CanFall canFall = null;
-	private float gravityMult;
+	protected float gravityMult;
 
 	public virtual bool isStartingJump
 	{
@@ -73,7 +73,7 @@ public class CanCurveJump : CanJump
 			endJump();
 			return velocity;
 		}
-		
+
 		float i_curv;
 		bool isFall = i > 0.5f;
 		if (!isFall)
@@ -101,13 +101,22 @@ public class CanCurveJump : CanJump
 		return velocity;
 	}
 
-	private void endJump()
+	protected void endJump()
 	{
 		isJumping = false;
 		if (canFall != null)
 		{
 			canFall.gravityMult = gravityMult;
 		}
+	}
+
+	// ------>
+
+	public CanCurveJump downEvolvFrom()
+	{
+		return new CanCurveJump(
+			this.owner, this.canFall, this.jumpStrength, this.timeJump
+		);
 	}
 	
 }

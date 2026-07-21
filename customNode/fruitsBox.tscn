@@ -2,12 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://c08hqrtukjmlt" path="res://sprites/fruits_box.png" id="1_1nt3f"]
 [ext_resource type="Script" uid="uid://dpxid53b53spj" path="res://scripts/Props/FruitsBox.cs" id="1_8pkop"]
+[ext_resource type="Script" uid="uid://fkwptrtgjars" path="res://scripts/Props/FruitsBoxCollide.cs" id="3_jiuo8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5fgvr"]
 size = Vector2(79.025, 30.84)
 
 [node name="FruitsBox" type="Node2D" unique_id=2141503174]
 z_index = 80
+script = ExtResource("1_8pkop")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1177332883]
 position = Vector2(0, -20.5)
@@ -16,7 +18,7 @@ texture = ExtResource("1_1nt3f")
 
 [node name="RigidBody2D" type="StaticBody2D" parent="." unique_id=1256485091]
 collision_mask = 10
-script = ExtResource("1_8pkop")
+script = ExtResource("3_jiuo8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=852943461]
 position = Vector2(0, -15.89)

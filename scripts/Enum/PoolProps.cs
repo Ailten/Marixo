@@ -34,6 +34,9 @@ public class PoolProps<T> where T : Node2D, IPoolableProps
 
 }
 
+/// <summary>
+/// Interface for props who can be spawn during the run, but not defaultly place at start (like fx).
+/// </summary>
 public interface IPoolableProps
 {
     public void setElementPoolAwaike()

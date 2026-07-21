@@ -1,25 +1,26 @@
 using System;
 using Godot;
 
-public partial class FruitsBox : Node2D, IShootable
+public partial class FruitsBox : Node2D, IPoolableRespawn
 {
-    private Node2D baseNode;
 
     public override void _Ready()
     {
-        // get base node fruits box.
-        baseNode = GetNode<Node2D>("..");
-
         // snap ground.
-        baseNode.GlobalPosition = baseNode.GlobalPosition.snapToGround();
+        GlobalPosition = GlobalPosition.snapToGround();
+
+        posSpawn = GlobalPosition;
+        spawn();
+        PoolRespawn.setInPool(this);
     }
 
-    public void takeShoot(Node2D projectil)
+    private Vector2 posSpawn;
+    public void spawn()
     {
-        openTheBox();
+        GlobalPosition = posSpawn;
     }
 
-    private void openTheBox()
+    public void openTheBox()
     {
         // get random fruit type.
         int jumpBoostTypeLength = Enum.GetValues(typeof(JumpBoostType)).Length;
@@ -34,6 +35,6 @@ public partial class FruitsBox : Node2D, IShootable
         explo.initExplo(GlobalPosition + (Vector2.Up * 58f), Vector2.One * 0.5f);
 
         // destroy box.
-        baseNode.QueueFree();
+        (this as IPoolableRespawn).unspawn();
     }
 }

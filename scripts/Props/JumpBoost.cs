@@ -56,7 +56,7 @@ public partial class JumpBoost : Node2D, IPoolableProps
                 playerScript.canJump = CanLowGravityCurveJump.evolvFrom(playerScript.canJump as CanCurveJump);
                 break;
             case JumpBoostType.Banana:
-                playerScript.canJump = CanHightCurveJump.evolvFrom(playerScript.canJump as CanCurveJump);
+                playerScript.canJump = CanSlideCurveJump.evolvFrom(playerScript.canJump as CanCurveJump);
                 break;
             case JumpBoostType.Cherry:
                 playerScript.canJump = CanDoubleCurveJump.evolvFrom(playerScript.canJump as CanCurveJump);

@@ -120,3 +120,5 @@ public static class GM
 // ? when player die : remove his upgrade.
 // ? explosion anime (for death lapy).
 // ? collectible coin or other props (shrimp).
+
+// ?? bug when open a box same frame as die by sea -> make setData,JumpBoost throw error (unfindElement).
