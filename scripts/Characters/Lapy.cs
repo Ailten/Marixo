@@ -50,7 +50,7 @@ public partial class Lapy : Character, IPoolableRespawn
         GlobalPosition = posSpawn;
         if (isLookAtRightSpawn ^ isLookAtRight)
             isLookAtRight = !isLookAtRight;
-            
+
         refillLive();
     }
 
@@ -120,7 +120,7 @@ public partial class Lapy : Character, IPoolableRespawn
 
     // ------> 
 
-    public override bool takeDamage(int damage, Character damageMaker = null, bool isCheckDeath = true)
+    public override bool takeDamage(int damage, Character damageMaker = null, bool isCheckDeath = true, bool isFxHpLost=true)
     {
         bool isTakenDamage = base.takeDamage(damage, damageMaker, isCheckDeath: false);
 
@@ -134,6 +134,9 @@ public partial class Lapy : Character, IPoolableRespawn
         stateLapy = StateLapy.hited;
         animatedSprite.Play(stateLapy.getSpriteAnime());
         (canBeHit as CanBeHitRepealToPos).posDestRepeal = isLiving ? lastPosValid : GlobalPosition;
+
+        // spawn fx hp lost.
+        spawnFxHPLost(damage);
 
         return true;
     }
@@ -161,6 +164,11 @@ public partial class Lapy : Character, IPoolableRespawn
 
         // unspawn.
         (this as IPoolableRespawn).unspawn();
+    }
+
+    protected override void spawnFxHPLost(int damage, Vector2? posSpawn = null)
+    {
+        base.spawnFxHPLost(damage, GlobalPosition + (Vector2.Up * 50f));
     }
 
 }

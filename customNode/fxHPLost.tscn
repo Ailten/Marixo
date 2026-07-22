@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bsit1tm74c4b6"]
+
+[ext_resource type="Script" uid="uid://b2va2kadovrg5" path="res://scripts/Props/FxHPLost.cs" id="1_sfagh"]
+
+[node name="textHPleft" type="Node2D" unique_id=829695386]
+script = ExtResource("1_sfagh")

@@ -93,7 +93,7 @@ public partial class Character : CharacterBody2D
         return true;
     }
 
-    public virtual bool takeDamage(int damage, Character damageMaker=null, bool isCheckDeath=true)
+    public virtual bool takeDamage(int damage, Character damageMaker=null, bool isCheckDeath=true, bool isFxHpLost=true)
     {
         if (canBeHit.isCooldownDamaged)
             return false;
@@ -107,7 +107,17 @@ public partial class Character : CharacterBody2D
 
         canBeHit.beHit(damageMaker);  // set time world hit (for cooldown invu).
 
+        // spawn fx take damage.
+        if (isFxHpLost)
+            spawnFxHPLost(damage);
+
         return true;
+    }
+
+    protected virtual void spawnFxHPLost(int damage, Vector2? posSpawn=null)
+    {
+        FxHPLost fxHpLost = FxHPLost.pool.getNextElement();
+        fxHpLost.setData(posSpawn ?? GlobalPosition, damage);
     }
 
     public void makeDamage(int damage, Character target)

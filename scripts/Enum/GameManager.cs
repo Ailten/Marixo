@@ -97,8 +97,6 @@ public static class GM
 //     << the front >>
 
 // TODO:
-// remove colision from tile border water and deep water (usless colision, who take vertex).
-// character need something to print Live, or damage take when hit.
 // need a pannel (blaca ?) as tutoriel indicator (maybe PNJ with scripted scenario).
 // HUD player HP, + VN dialogue pop up.
 // add pnj talkable (for tuto) -> blaca.
@@ -115,10 +113,12 @@ public static class GM
 // make lapy spawn shrimp.
 // set random seed with methode.
 // debug gravity jump.
-// make fruits_box can be respawn (like lapy).
 
+//---> optional idee.
+// ? add particule on fx explo.
 // ? when player die : remove his upgrade.
 // ? explosion anime (for death lapy).
 // ? collectible coin or other props (shrimp).
 
-// ?? bug when open a box same frame as die by sea -> make setData,JumpBoost throw error (unfindElement).
+//---> debuging.
+// ?? bug when open a box same frame as die by sea -> make setData,JumpBoost throw error (unfindElement), making box unable to be shoot, maybe bug is about getting pool fruits to spawn.

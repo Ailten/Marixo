@@ -52,7 +52,8 @@ public partial class Player : Character
 				return;
 			}
 
-			if (canBeHit is CanBeHitInvuFrame canBeHitInvu) {
+			if (canBeHit is CanBeHitInvuFrame canBeHitInvu)
+			{
 
 				// set invu skin (opacity).
 				animatedSprite.Modulate = animatedSprite.Modulate * new Color(1, 1, 1, 0.4f);  // 40% opacity.
@@ -167,7 +168,7 @@ public partial class Player : Character
 
 	// ------>
 
-	public override bool takeDamage(int damage, Character damageMaker = null, bool isCheckDeath = true)
+	public override bool takeDamage(int damage, Character damageMaker = null, bool isCheckDeath = true, bool isFxHpLost = true)
 	{
 		// if take damage when invu frame.
 		if (canBeHit is CanBeHitInvuFrame canBeHitInvuFrame)
@@ -187,5 +188,10 @@ public partial class Player : Character
 		// respawn all mobs and traps.
 		PoolRespawn.respawnAllDisabled();
 	}
+
+    protected override void spawnFxHPLost(int damage, Vector2? posSpawn = null)
+    {
+        base.spawnFxHPLost(damage, GlobalPosition + (Vector2.Up * 120f));
+    }
 
 }
